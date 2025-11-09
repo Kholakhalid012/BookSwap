@@ -1,0 +1,71 @@
+@{
+    ViewBag.Title = "Admin Dashboard - BookSwap";
+}
+
+<section class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Admin Dashboard</h1>
+        <p class="lead">Manage users, books, and approvals at a glance.</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <!-- Total Users Card -->
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center p-4">
+                <i class="bi bi-people-fill display-4 text-primary mb-3"></i>
+                <h5 class="fw-bold">Total Users</h5>
+                <h3 class="fw-bold">120</h3> <!-- Placeholder number -->
+            </div>
+        </div>
+
+        <!-- Total Books Card -->
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center p-4">
+                <i class="bi bi-book-fill display-4 text-success mb-3"></i>
+                <h5 class="fw-bold">Total Books</h5>
+                <h3 class="fw-bold">340</h3> <!-- Placeholder number -->
+            </div>
+        </div>
+
+        <!-- Pending Approvals Card -->
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center p-4">
+                <i class="bi bi-hourglass-split display-4 text-warning mb-3"></i>
+                <h5 class="fw-bold">Pending Approvals</h5>
+                <h3 class="fw-bold">15</h3> <!-- Placeholder number -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Admin Actions -->
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="bi bi-person-check-fill display-4 text-info mb-2"></i>
+                <p class="fw-bold mb-0">Manage Users</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="bi bi-journal-check display-4 text-success mb-2"></i>
+                <p class="fw-bold mb-0">Manage Books</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="bi bi-graph-up display-4 text-warning mb-2"></i>
+                <p class="fw-bold mb-0">View Reports</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="bi bi-trash display-4 text-danger mb-2"></i>
+                <p class="fw-bold mb-0">Delete Listings</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="/Home/Index" class="btn btn-dark btn-lg">Back to Home</a>
+    </div>
+</section>

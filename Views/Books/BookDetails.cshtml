@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "Book Details";
+}
+<div class="row g-4">
+    <div class="col-md-4">
+        <img src="https://via.placeholder.com/400x500?text=Book+Cover" class="img-fluid rounded" alt="cover">
+    </div>
+    <div class="col-md-8">
+        <h3>Design Patterns: Elements of Reusable Object-Oriented Software</h3>
+        <p class="mb-1"><strong>Author:</strong> Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides</p>
+        <p class="mb-1"><strong>Condition:</strong> Good</p>
+        <p class="mb-3"><strong>Price:</strong> PKR 1200</p>
+
+        <p class="mb-4">Short description of book, edition, notes on annotations etc.</p>
+
+        <h5>Seller</h5>
+        <p><strong>Ali Khan</strong> — Ali's email/phone visible after contact (or a contact form below)</p>
+
+        <hr />
+
+        <h5>Contact Seller</h5>
+        <form method="post" asp-controller="Books" asp-action="ContactSeller">
+            <div class="mb-2">
+                <label class="form-label">Your message</label>
+                <textarea class="form-control" name="Message" rows="3" required>I am interested in your book listed on BookSwap...</textarea>
+            </div>
+            <div class="mb-2 row">
+                <div class="col-md-6">
+                    <input class="form-control" name="Name" placeholder="Your name" required />
+                </div>
+                <div class="col-md-6">
+                    <input class="form-control" name="Contact" placeholder="Email or phone" required />
+                </div>
+            </div>
+            <button class="btn btn-primary">Send Message</button>
+        </form>
+    </div>
+</div>
