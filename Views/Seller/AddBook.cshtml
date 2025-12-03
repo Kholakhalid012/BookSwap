@@ -1,0 +1,35 @@
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center mb-4 fw-bold">Add New Book 📘</h2>
+
+                <form asp-action="AddBook" method="post" class="d-grid gap-3">
+
+                    <input type="text" name="title" class="form-control" placeholder="Book Title" required />
+
+                    <input type="text" name="author" class="form-control" placeholder="Author Name" required />
+
+                    <input type="text" name="category" class="form-control" placeholder="Category (e.g. Fiction, Science)" required />
+
+                    <input type="number" step="0.01" name="price" class="form-control" placeholder="Price (USD)" required />
+
+                    <input type="text" name="imagePath" class="form-control" placeholder="Image URL (optional)" />
+
+                    <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm">Add Book</button>
+                </form>
+
+                @if (TempData["Success"] != null)
+                {
+                    <p class="text-success text-center mt-3 fw-bold">
+                        @TempData["Success"]
+                    </p>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>

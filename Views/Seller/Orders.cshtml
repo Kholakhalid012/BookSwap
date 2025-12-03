@@ -1,0 +1,24 @@
+@model List<BookSwap.Models.Order> 
+
+<h2>My Orders</h2>
+
+<table class="table">
+    <tr>
+        <th>Book</th>
+        <th>Buyer ID</th>
+        <th>Quantity</th>
+        <th>Total Price</th>
+        <th>Status</th>
+    </tr>
+
+    @foreach (var order in Model)
+    {
+        <tr>
+            <td>@order..Title</td>
+            <td>@order.buyerid</td>
+            <td>@order.quantity</td>
+            <td>@order.totalprice</td>
+            <td>@order.status</td>
+        </tr>
+    }
+</table>

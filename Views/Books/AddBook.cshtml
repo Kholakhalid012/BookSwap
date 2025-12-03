@@ -1,6 +1,3 @@
-@{
-    ViewData["Title"] = "Add Book - BookSwap";
-}
 
 <section class="container py-5">
     <div class="text-center mb-5">
@@ -11,47 +8,64 @@
     <div class="row justify-content-center">
         <div class="col-md-7">
             <div class="card shadow-sm p-4">
-                <form asp-action="AddBook" enctype="multipart/form-data">
-                    <!-- Book Title -->
-                    <div class="mb-4">
+                <form asp-action="AddBook" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
                         <label class="form-label fw-bold">Book Title</label>
-                        <input type="text" class="form-control rounded-pill py-3" placeholder="Enter book title" style="font-size: 1.2rem;">
+                        <input type="text" name="title" class="form-control rounded-pill py-2" placeholder="Enter book title" required>
                     </div>
 
-                    <!-- Author -->
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <label class="form-label fw-bold">Author</label>
-                        <input type="text" class="form-control rounded-pill py-3" placeholder="Enter author name" style="font-size: 1.2rem;">
+                        <input type="text" name="author" class="form-control rounded-pill py-2" placeholder="Enter author name" required>
                     </div>
 
-                    <!-- Category -->
-                    <div class="mb-4">
+                  
+                    <div class="mb-3">
                         <label class="form-label fw-bold">Category</label>
-                        <select class="form-select rounded-pill py-3" style="font-size: 1.2rem;">
+                        <select name="category" class="form-select rounded-pill py-2" required>
                             <option value="">Select Category</option>
                             <option>Computer Science</option>
                             <option>Fiction</option>
                             <option>Business</option>
                             <option>Education</option>
+                            <option>Nature</option>
+                            <option>Life</option>
                         </select>
                     </div>
 
-                    <!-- Price -->
-                    <div class="mb-4">
+                
+                    <div class="mb-3">
                         <label class="form-label fw-bold">Price (PKR)</label>
-                        <input type="number" class="form-control rounded-pill py-3" placeholder="Enter price" style="font-size: 1.2rem;">
+                        <input type="number" name="price" class="form-control rounded-pill py-2" placeholder="Enter price" required>
                     </div>
 
-                    <!-- Book Cover Image -->
-                    <div class="mb-4">
-                        <label class="form-label fw-bold">Book Cover Image</label>
-                        <input type="file" class="form-control rounded-pill py-2">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Book Cover Image (Optional)</label>
+                        <input type="file" name="BookImage" class="form-control" accept="image/*" onchange="previewImage(event)">
+                        <img id="imagePreview" src="/images/default-book.png" alt="Book Preview" class="img-fluid mt-3" style="max-height:200px;">
                     </div>
 
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn btn-success w-100 rounded-pill py-3 fw-bold">Add Book</button>
+                    <button type="submit" class="btn btn-success w-100 rounded-pill py-2 fw-bold">Add Book</button>
                 </form>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function(){
+            var dataURL = reader.result;
+            var output = document.getElementById('imagePreview');
+            output.src = dataURL;
+        };
+        if(input.files[0]){
+            reader.readAsDataURL(input.files[0]);
+        } else {
+    
+            document.getElementById('imagePreview').src = '/images/default-book.svg';
+        }
+    }
+</script>

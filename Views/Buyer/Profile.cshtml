@@ -1,0 +1,16 @@
+@{
+    ViewBag.Title = "Profile";
+}
+
+<h2>Profile</h2>
+
+<form asp-action="Profile" method="post">
+    <label>Username:</label><br />
+    <input type="text" name="username" value="@ViewBag.Username" required /><br /><br />
+    <button type="submit" class="btn btn-success">Update Profile</button>
+</form>
+
+@if (TempData["Success"] != null)
+{
+    <p class="text-success">@TempData["Success"]</p>
+}

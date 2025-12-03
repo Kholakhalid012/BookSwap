@@ -1,0 +1,19 @@
+@model BookSwap.Models.Book
+@{
+    ViewBag.Title = "Book Details";
+}
+
+<h2>@Model.Title</h2>
+<p><strong>Author:</strong> @Model.Author</p>
+<p><strong>Category:</strong> @Model.Category</p>
+<p><strong>Price:</strong> @Model.Price</p>
+<img src="@Model.ImagePath" width="200" />
+
+<p>
+    <a href="/Buyer/PlaceOrder/@Model.Id" class="btn btn-success">Buy Now</a>
+</p>
+
+
+
+
+

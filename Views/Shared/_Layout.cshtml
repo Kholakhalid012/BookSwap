@@ -1,45 +1,102 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var username = Context.Session.GetString("Username");
+    var role = Context.Session.GetString("UserRole");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - BookSwap</title>
-
-    <!-- Bootstrap CSS (CDN) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+
+<body class="d-flex flex-column min-vh-100">
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">BookSwap</a>
+            <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">BookSwap</a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Books" asp-action="Index">Browse</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Books" asp-action="Add">Add Book</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Login</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+
+                    @if (string.IsNullOrEmpty(username))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-outline-primary px-3 py-1 ms-lg-3" asp-controller="Account" asp-action="Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-outline-success px-3 py-1 ms-lg-2" asp-controller="Account" asp-action="Register">Register</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <span class="nav-link">Welcome, @username</span>
+                        </li>
+
+                        @* Role-specific links *@
+                        @if (role == "Buyer")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Buyer" asp-action="Index">Buyer Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Buyer" asp-action="Orders">My Orders</a>
+                            </li>
+                        }
+                        else if (role == "Seller")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Seller" asp-action="Index">Seller Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Seller" asp-action="AddBook">Add Book</a>
+                            </li>
+                        }
+                        else if (role == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Admin" asp-action="AdminDashboard">Admin Dashboard</a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-outline-warning px-3 py-1 ms-lg-2" asp-controller="Account" asp-action="EditProfile">Edit Profile</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                <button type="submit" class="nav-link btn btn-outline-danger px-3 py-1 ms-lg-2">Logout</button>
+                            </form>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container my-5">
+    <main class="container my-5">
+        <h2 class="mb-4">@ViewData["Title"]</h2>
         @RenderBody()
-    </div>
+    </main>
 
-    <footer class="bg-light py-4 mt-auto">
+    <footer class="bg-light py-4 mt-auto border-top">
         <div class="container text-center small text-muted">
-            © @DateTime.Now.Year BookSwap — swap, sell, save.
+             @DateTime.Now.Year BookSwap — swap, sell, save.
         </div>
     </footer>
 
-    <!-- Bootstrap JS (CDN) + Popper -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>

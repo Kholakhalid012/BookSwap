@@ -1,8 +1,4 @@
-﻿@{
-    ViewBag.Title = "Home - BookSwap";
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,7 +22,7 @@
 
         /* Navbar */
         .navbar {
-            background: rgba(0, 0, 0, 0.689);
+            background: rgba(0, 0, 0, 0.7);
         }
 
         .navbar a {
@@ -50,9 +46,11 @@
         .hero::after {
             content: '';
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.803);
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
+            background: rgba(0, 0, 0, 0.80);
         }
 
         .hero-content {
@@ -70,12 +68,7 @@
             margin-bottom: 30px;
         }
 
-        .btn-custom {
-            border-radius: 25px;
-            padding: 10px 25px;
-        }
-
-        /* Buyer & Seller Section */
+        /* Features Section */
         .roles-section {
             padding: 80px 0;
             background-color: #f9f9f9;
@@ -91,11 +84,13 @@
             transform: scale(1.05);
         }
 
+        /* Search Section */
         .search-section {
             background-color: #fff;
             padding: 60px 0;
         }
 
+        /* Footer */
         .footer {
             background: #090909;
             color: white;
@@ -108,13 +103,13 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold text-white" href="#">📚 BookSwap</a>
+            <a class="navbar-brand fw-bold text-white" href="/">📚 BookSwap</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon text-white"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="/Books/Browse">Browse</a></li>
                     <li class="nav-item"><a class="nav-link" href="/Account/Login">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="/Account/Register">Register</a></li>
@@ -127,15 +122,11 @@
     <section class="hero">
         <div class="hero-content text-center">
             <h1>Buy & Sell Used Books Easily</h1>
-            <p>Join BookSwap — your platform for affordable, sustainable reading.</p>
-            <div class="mt-3">
-                <a href="/Home/Buyer" class="btn btn-primary btn-custom mx-2">I’m a Buyer</a>
-                <a href="/Home/Seller" class="btn btn-outline-light btn-custom mx-2">I’m a Seller</a>
-            </div>
+            <p>Your sustainable marketplace for affordable reading.</p>
         </div>
     </section>
 
-    <!-- Buyer & Seller Info -->
+    <!-- How It Works Section -->
     <section class="roles-section">
         <div class="container text-center">
             <h2 class="fw-bold mb-5">How It Works</h2>
@@ -144,23 +135,21 @@
                     <div class="card shadow-sm role-card p-4">
                         <i class="bi bi-book-half display-4 text-primary mb-3"></i>
                         <h4>For Buyers</h4>
-                        <p>Search thousands of used books by title, author, or category. Connect with sellers directly and get the best deals.</p>
-                        <a href="/Home/Buyer" class="btn btn-outline-primary btn-sm mt-2">Learn More</a>
+                        <p>Browse thousands of used books and find great deals from trusted sellers.</p>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card shadow-sm role-card p-4">
                         <i class="bi bi-journal-plus display-4 text-success mb-3"></i>
                         <h4>For Sellers</h4>
-                        <p>List your old books for free and reach hundreds of potential buyers. Manage your listings easily.</p>
-                        <a href="/Home/Seller" class="btn btn-outline-success btn-sm mt-2">Learn More</a>
+                        <p>Easily list your books and connect with buyers who love reading the literature.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Search Section -->
+    @* <!-- Search Section -->
     <section class="search-section text-center">
         <div class="container">
             <h2 class="fw-bold mb-4">Find Your Next Read</h2>
@@ -169,7 +158,7 @@
                 <button class="btn btn-primary">Search</button>
             </form>
         </div>
-    </section>
+    </section> *@
 
     <!-- Footer -->
     <footer class="footer text-center">

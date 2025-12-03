@@ -1,68 +1,68 @@
+@model List<BookSwap.Models.Book>
 @{
     ViewData["Title"] = "My Books - BookSwap";
 }
 
 <section class="container py-5">
-    <!-- Header -->
+
     <div class="text-center mb-5">
         <h1 class="fw-bold">My Listings</h1>
         <p class="lead text-muted">Manage the books you’ve listed for sale.</p>
     </div>
 
-    <!-- Add New Book Button -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success text-center">@TempData["Success"]</div>
+    }
+
     <div class="text-end mb-4">
-        <a href="/Books/AddBook" class="btn btn-success rounded-pill py-2 px-4 fw-bold">
+        <a href="@Url.Action("AddBook", "Seller")" class="btn btn-success rounded-pill py-2 px-4 fw-bold">
             <i class="bi bi-plus-lg me-2"></i> Add New Book
         </a>
     </div>
 
-    <!-- Book Cards -->
     <div class="row g-4">
-        <!-- Example Book Card -->
-        <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100 shadow-sm">
-                <img src="https://via.placeholder.com/300x200?text=Book+Cover" class="card-img-top" alt="Book Cover">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold">Clean Code</h5>
-                    <p class="card-text text-muted mb-2">Robert C. Martin</p>
-                    <p class="fw-bold mb-3">PKR 850</p>
 
-                    <!-- Buttons -->
-                    <div class="mt-auto d-flex justify-content-between">
-                        <a href="#" class="btn btn-outline-primary btn-sm rounded-pill fw-bold">Edit</a>
-                        <a href="#" class="btn btn-outline-danger btn-sm rounded-pill fw-bold">Delete</a>
+        @if (Model == null || !Model.Any())
+        {
+            <div class="text-center">
+                <h4 class="text-muted">No books added yet.</h4>
+            </div>
+        }
+        else
+        {
+            foreach (var book in Model)
+            {
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 shadow-sm">
+                        <img src="@book.ImagePath" class="card-img-top" 
+                             onerror="this.src='/images/default-book.svg';" alt="Book Cover" />
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold">@book.Title</h5>
+                            <p class="card-text text-muted mb-1">@book.Author</p>
+                            <p class="fw-bold mb-2">PKR @book.Price</p>
+                            <p class="text-muted mb-3" style="font-size:0.9rem;">
+                                Seller: @book.SellerName <br />
+                                Contact: @book.SellerContact
+                            </p>
+
+                            <div class="mt-auto d-flex justify-content-between">
+                                <a href="@Url.Action("EditBook", "Seller", new { id = book.Id })" 
+                                   class="btn btn-outline-warning btn-sm rounded-pill fw-bold">Edit</a>
+
+                                <form asp-action="DeleteBook" method="post"  asp-controller="Seller" style="display:inline;">                                      
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@book.Id" />
+                                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill fw-bold">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            }
+        }
 
-        <!-- Repeat Example Card -->
-        <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100 shadow-sm">
-                <img src="https://via.placeholder.com/300x200?text=Book+Cover" class="card-img-top" alt="Book Cover">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold">The Pragmatic Programmer</h5>
-                    <p class="card-text text-muted mb-2">Andy Hunt</p>
-                    <p class="fw-bold mb-3">PKR 950</p>
-                    <div class="mt-auto d-flex justify-content-between">
-                        <a href="#" class="btn btn-outline-primary btn-sm rounded-pill fw-bold">Edit</a>
-                        <a href="#" class="btn btn-outline-danger btn-sm rounded-pill fw-bold">Delete</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Optional Pagination -->
-    <div class="d-flex justify-content-center mt-5">
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-        </nav>
     </div>
 </section>
