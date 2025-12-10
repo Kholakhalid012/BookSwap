@@ -21,6 +21,12 @@ namespace BookSwap.Controllers
             _orderRepo = orderRepo;
             _userManager = userManager;
         }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
         public IActionResult Index()
         {
             var books = _bookRepo.GetAll() ?? new List<Book>();

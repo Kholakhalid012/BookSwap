@@ -37,8 +37,20 @@
       "PackagePath": "staticwebassets/images/Book5.jpg"
     },
     {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/images/buy-button.png",
+      "PackagePath": "staticwebassets/images/buy-button.png"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/images/buy.png",
+      "PackagePath": "staticwebassets/images/buy.png"
+    },
+    {
       "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/images/default-book.svg",
       "PackagePath": "staticwebassets/images/default-book.svg"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/images/sell.png",
+      "PackagePath": "staticwebassets/images/sell.png"
     },
     {
       "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/js/site.js",
