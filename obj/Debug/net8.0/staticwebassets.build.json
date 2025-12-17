@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "56/uaivkpKmslu8xc2qwjHgIC/h5Yev4Ed7Qd/OuWnI=",
+  "Hash": "kcHupmf/KIkjwpqgmozrCwHevP4UNXb/uCMSdUyKG3o=",
   "Source": "BookSwap",
   "BasePath": "_content/BookSwap",
   "Mode": "Default",
@@ -1402,6 +1402,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/images/default-book.svg"
+    },
+    {
+      "Identity": "/Users/hafsa/Desktop/BookSwap/wwwroot/images/Home_Page.jpg",
+      "SourceId": "BookSwap",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hafsa/Desktop/BookSwap/wwwroot/",
+      "BasePath": "_content/BookSwap",
+      "RelativePath": "images/Home_Page.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/Home_Page.jpg"
     },
     {
       "Identity": "/Users/hafsa/Desktop/BookSwap/wwwroot/images/sell.png",

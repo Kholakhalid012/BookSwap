@@ -140,6 +140,15 @@ namespace BookSwap.Controllers
 
             return RedirectToAction("Login");
         }
+        public IActionResult About_Us()
+        {
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            return View();
+        }
 
         // ---------------- LOGOUT ----------------
         public async Task<IActionResult> Logout()

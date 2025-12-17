@@ -10,9 +10,9 @@
 
     // Stats
     int totalOrders = orders.Count;
-    int completedOrders = orders.Count(o => o.status == "Completed");
-    int pendingOrders = orders.Count(o => o.status == "Pending");
-    decimal totalRevenue = (decimal)orders.Sum(o => o.totalprice);
+    int completedOrders = orders.Count(o => o.Status == "Completed");
+    int pendingOrders = orders.Count(o => o.Status == "Pending");
+    decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice);
     int totalBooks = books.Count;
     int totalUsers = users.Count;
     int buyerCount = users.Count(u => u.role == "Buyer");
@@ -29,7 +29,7 @@ var bestSeller = orders
 
 
    var topBuyerId = orders
-    .GroupBy(o => o.buyerid)
+    .GroupBy(o => o.BuyerId)
     .OrderByDescending(g => g.Count())
     .FirstOrDefault()?.Key;
 
@@ -118,10 +118,7 @@ string topBuyer = topBuyerId != null ? topBuyerId.ToString() : "No buyers yet";
         </div>
     </div>
 
-    <!-- =======================
-         USER SUMMARY
-    ======================== -->
-    <h4 class="mt-4">👥 User Overview</h4>
+    <h4 class="mt-4"> User Overview</h4>
     <div class="row g-4 mb-4">
         <div class="col-md-3">
             <div class="card p-3 shadow-sm text-center">
@@ -171,14 +168,14 @@ string topBuyer = topBuyerId != null ? topBuyerId.ToString() : "No buyers yet";
             @foreach (var o in orders.TakeLast(5))
             {
                 <tr>
-                    <td>@o.id</td>
-                    <td>@o.buyerid</td>
-                    <td>@o.bookid</td>
-                    <td>@o.quantity</td>
-                    <td>@o.totalprice</td>
+                    <td>@o.OrderId</td>
+                    <td>@o.BuyerId</td>
+                    <td>@o.BookId</td>
+                    <td>@o.Quantity</td>
+                    <td>@o.TotalPrice</td>
                     <td>
-                        <span class="badge @(o.status == "Completed" ? "bg-success" : "bg-warning")">
-                            @o.status
+                        <span class="badge @(o.Status == "Completed" ? "bg-success" : "bg-warning")">
+                            @o.Status
                         </span>
                     </td>
                 </tr>

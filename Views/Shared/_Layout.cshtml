@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+
+@{
     var username = Context.Session.GetString("Username");
     var role = Context.Session.GetString("UserRole");
 }
@@ -15,27 +17,29 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">BookSwap</a>
+        <a class="navbar-brand fw-bold bookswap-brand" asp-controller="Home" asp-action="Index">BOOKSWAP</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto"> 
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link fw-bold  text-white btn btn-outline-success px-3 py-1 ms-lg-3"  style="font-size:  1.4rem;" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
 
                     @if (string.IsNullOrEmpty(username))
                     {
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-outline-primary px-3 py-1 ms-lg-3" asp-controller="Account" asp-action="Login">Login</a>
+                       
+                        <li class="nav-item"> 
+                             <a class="nav-link fw-bold text-size small text-white btn btn-outline-primary  px-3 py-1 ms-lg-3"  style="font-size:  1.4rem;" asp-controller="Account" asp-action="Contact">Contact</a>
+                            @* ms-lg-3 means margin start on large screens is 1rem and px-3 means padding left and right is 1rem ans py-1 means padding top and bottom is 0.25rem ans padding means the  *@
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn btn-outline-success px-3 py-1 ms-lg-2" asp-controller="Account" asp-action="Register">Register</a>
+                            <a class="nav-link fw-bold  text-size small text-white btn btn-outline-success px-3 py-1 ms-lg-3"  style="font-size:  1.4rem;" asp-controller="Account" asp-action="About_Us">About Us</a>
                         </li>
                     }
                     else

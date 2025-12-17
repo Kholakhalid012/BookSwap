@@ -10,7 +10,7 @@ namespace BookSwap.Models.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        // Get a user by username
+
         public User getByUsername(string username)
         {
             using (var conn = DBHelper.CreateConnection())
@@ -20,7 +20,7 @@ namespace BookSwap.Models.Repositories
             }
         }
 
-        // Register a new user with hashed password
+      
         public void register(User user)
         {
             using (var conn = DBHelper.CreateConnection())
@@ -47,11 +47,10 @@ namespace BookSwap.Models.Repositories
                     return user;
                 }
 
-                return null; // Invalid login
+                return null; 
             }
         }
 
-        // Get all users
         public List<User> getAll()
         {
             using (var conn = DBHelper.CreateConnection())

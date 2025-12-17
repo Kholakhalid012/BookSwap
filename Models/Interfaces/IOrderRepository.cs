@@ -5,7 +5,7 @@ namespace BookSwap.Models.Interfaces
 {
     public interface IOrderRepository
     {
-        void placeOrder(Order order);
+        bool placeOrder(Order order, out string message);
         List<Order> getOrdersByBuyer(string buyerId);
         List<Order> getAllOrders();
         void updateStatus(int id, string status);

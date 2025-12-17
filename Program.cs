@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using BookSwap.Data;
 using BookSwap.Models.Interfaces;
 using BookSwap.Models.Repositories;
+using BookSwap.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,30 +25,30 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 3;
 });
+builder.Services.AddSignalR();
 
-// Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-// If you are using interfaces:
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 
-// Add controllers with views
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure middleware...
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 app.UseStaticFiles();
 app.MapDefaultControllerRoute();
+app.MapHub<StockHub>("/stockHub");
 
 app.Run();
+
+
+

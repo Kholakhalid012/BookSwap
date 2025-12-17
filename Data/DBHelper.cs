@@ -6,7 +6,7 @@ namespace BookSwap.Data
     public static class DBHelper
     {
         private static readonly string connectionString =
-            @"Server=localhost,1433; Database=BookSwap; User Id=sa; Password=MyStrongPassword123; TrustServerCertificate=true;";
+            @"Server=localhost,1443; Database=BookSwap; User Id=sa; Password=StrongPass@123; TrustServerCertificate=true;";
 
         public static IDbConnection CreateConnection()
         {

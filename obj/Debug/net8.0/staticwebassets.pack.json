@@ -37,6 +37,10 @@
       "PackagePath": "staticwebassets/images/Book5.jpg"
     },
     {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/images/Home_Page.jpg",
+      "PackagePath": "staticwebassets/images/Home_Page.jpg"
+    },
+    {
       "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/images/buy-button.png",
       "PackagePath": "staticwebassets/images/buy-button.png"
     },

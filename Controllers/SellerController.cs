@@ -52,19 +52,28 @@ namespace BookSwap.Controllers
 
             if (BookImage != null && BookImage.Length > 0)
             {
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+                var ext = Path.GetExtension(BookImage.FileName).ToLower();
+                var allowed = new[] { ".jpg", ".jpeg", ".png" , "svg", "webp"};
+
+                if (!allowed.Contains(ext))
+                {
+                    TempData["Error"] = "Only JPG, JPEG, PNG, SVG, WEBP images are allowed.";
+                    return RedirectToAction("AddBook");
+                }
+
+                var uploadsFolder = Path.Combine( Directory.GetCurrentDirectory(),  "wwwroot", "uploads", "books"
+                );
+
                 if (!Directory.Exists(uploadsFolder))
                     Directory.CreateDirectory(uploadsFolder);
 
-                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(BookImage.FileName);
+                var fileName = Guid.NewGuid() + ext;
                 var filePath = Path.Combine(uploadsFolder, fileName);
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    BookImage.CopyTo(fileStream);
-                }
+                using var fileStream = new FileStream(filePath, FileMode.Create);
+                await BookImage.CopyToAsync(fileStream);
 
-                imagePath = "/uploads/" + fileName;
+                imagePath = "/uploads/books/" + fileName;
             }
 
             var seller = await _userManager.GetUserAsync(User);
@@ -81,32 +90,32 @@ namespace BookSwap.Controllers
                 SellerContact = seller.PhoneNumber
             };
 
-            _bookRepo.Add(book);
-            TempData["Success"] = "Book added successfully!";
-            return RedirectToAction("MyBooks");
-        }
+                _bookRepo.Add(book);
+                TempData["Success"] = "Book added successfully!";
+                return RedirectToAction("MyBooks");
+            }
 
-        public async Task<IActionResult> MyBooks()
-        {
-            var seller = await _userManager.GetUserAsync(User);
-            if (seller == null) return RedirectToAction("Login", "Account");
+            public async Task<IActionResult> MyBooks()
+            {
+                var seller = await _userManager.GetUserAsync(User);
+                if (seller == null) return RedirectToAction("Login", "Account");
 
-            var books = _bookRepo.GetBooksBySeller(seller.Id);
-            return View(books);
-        }
+                var books = _bookRepo.GetBooksBySeller(seller.Id);
+                return View(books);
+            }
 
-        [HttpGet]
-        public IActionResult EditBook(int id)
-        {
-            var book = _bookRepo.GetById(id);
-            if (book == null) return NotFound();
-            return View(book);
-        }
+            [HttpGet]
+            public IActionResult EditBook(int id)
+            {
+                var book = _bookRepo.GetById(id);
+                if (book == null) return NotFound();
+                return View(book);
+            }
 
-        [HttpPost]
-        public IActionResult EditBook(int id, string title, string author, string category, decimal price, IFormFile BookImage)
-        {
-            var book = _bookRepo.GetById(id);
+            [HttpPost]
+            public IActionResult EditBook(int id, string title, string author, string category, decimal price, IFormFile BookImage)
+            {
+                var book = _bookRepo.GetById(id);
             if (book == null) return NotFound();
 
             string imagePath = book.ImagePath ?? "/images/default-book.svg";
@@ -153,7 +162,10 @@ namespace BookSwap.Controllers
 
         public IActionResult Orders()
         {
-            var orders = _orderRepo.getAllOrders();
+            var sellerId = _userManager.GetUserId(User);
+            var orders = _orderRepo.getAllOrders()
+                .Where(o => o.Book?.SellerId == sellerId)
+                .ToList();
             return View(orders);
         }
     }

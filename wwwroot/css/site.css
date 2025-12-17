@@ -20,3 +20,6 @@ html {
 body {
   margin-bottom: 60px;
 }
+.navbar.navbar-dark.bg-dark {
+    background-color: #090404 !important;
+}

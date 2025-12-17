@@ -12,11 +12,13 @@
 
                     <input type="text" name="author" class="form-control" placeholder="Author Name" required />
 
-                    <input type="text" name="category" class="form-control" placeholder="Category (e.g. Fiction, Science)" required />
+                    <input type="text" name="category" class="form-control" placeholder="Category (e.g. Fiction, Science, Life, Nature)" required />
 
-                    <input type="number" step="0.01" name="price" class="form-control" placeholder="Price (USD)" required />
+                    <input type="number" step="0.01" name="price" class="form-control" placeholder="Price (Rupees)" required />
 
-                    <input type="text" name="imagePath" class="form-control" placeholder="Image URL (optional)" />
+                    <input type="number" name="stock" class="form-control" placeholder="Stock / Quantity Available" min="1" required />
+
+                    <input type="file" name="BookImage" class="form-control" />
 
                     <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm">Add Book</button>
                 </form>

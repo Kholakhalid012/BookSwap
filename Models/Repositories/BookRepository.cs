@@ -13,7 +13,7 @@ namespace BookSwap.Models.Repositories
         {
             using (var conn = DBHelper.CreateConnection())
             {
-                string sql = "SELECT * FROM books WHERE id = @id";
+                string sql = "SELECT * FROM Books WHERE id = @id";
                 return conn.QueryFirstOrDefault<Book>(sql, new { id });
             }
         }
@@ -22,7 +22,7 @@ namespace BookSwap.Models.Repositories
         {
             using (var conn = DBHelper.CreateConnection())
             {
-                string sql = "SELECT * FROM books";
+                string sql = "SELECT * FROM Books";
                 return conn.Query<Book>(sql).ToList();
             }
         }
@@ -31,7 +31,7 @@ namespace BookSwap.Models.Repositories
         {
             using (var conn = DBHelper.CreateConnection())
             {
-                string sql = @"INSERT INTO books 
+                string sql = @"INSERT INTO Books 
                                (title, author, price, sellerid, category, imagepath) 
                                VALUES (@Title, @Author, @Price, @SellerId, @Category, @ImagePath)";
                 conn.Execute(sql, book);
@@ -42,7 +42,7 @@ namespace BookSwap.Models.Repositories
         {
             using (var conn = DBHelper.CreateConnection())
             {
-                string sql = @"UPDATE books 
+                string sql = @"UPDATE Books 
                                SET title=@Title, author=@Author, price=@Price, sellerid=@SellerId, 
                                    category=@Category, imagepath=@ImagePath
                                WHERE id=@Id";
@@ -63,7 +63,7 @@ namespace BookSwap.Models.Repositories
         {
             using (var conn = DBHelper.CreateConnection())
             {
-                string sql = "SELECT * FROM books WHERE sellerid = @sellerId";
+                string sql = "SELECT * FROM Books WHERE sellerid = @sellerId";
                 return conn.Query<Book>(sql, new { sellerId }).ToList();
             }
         }
@@ -72,7 +72,7 @@ namespace BookSwap.Models.Repositories
         {
             using (var conn = DBHelper.CreateConnection())
             {
-                string sql = "SELECT DISTINCT category FROM books WHERE category IS NOT NULL";
+                string sql = "SELECT DISTINCT category FROM Books WHERE category IS NOT NULL";
                 return conn.Query<string>(sql).ToList();
             }
         }

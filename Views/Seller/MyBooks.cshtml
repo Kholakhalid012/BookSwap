@@ -16,6 +16,7 @@
                     <th>Author</th>
                     <th>Category</th>
                     <th>Price (PKR)</th>
+                    <th>Stock</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -31,6 +32,7 @@
                         <td>@book.Author</td>
                         <td>@book.Category</td>
                         <td class="fw-bold">Rs. @book.Price</td>
+                         <td class="fw-bold">@book.Stock</td>
 
                         <td class="text-center">
                             <a href="/Seller/EditBook/@book.Id" class="btn btn-primary btn-sm me-2">

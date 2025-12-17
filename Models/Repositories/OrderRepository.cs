@@ -9,33 +9,102 @@ namespace BookSwap.Models.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        public void placeOrder(Order order)
+        public bool placeOrder(Order order, out string message)
         {
             using (var conn = DBHelper.CreateConnection())
             {
-                string sql = @"INSERT INTO orders (bookid, buyerid, quantity, totalprice, status)
-                               VALUES ( @bookid, @buyerid, @quantity, @totalprice, @status)";
-                conn.Execute(sql, order);
+                string getStockSql = "SELECT Stock FROM Books WHERE Id = @BookId";
+                int stock = conn.QueryFirstOrDefault<int>(getStockSql, new { BookId = order.BookId });
+
+                if (stock < order.Quantity)
+                {
+                    message = $"Not enough stock available. Current stock: {stock}";
+                    return false; 
+                }
+
+                string insertSql = @"
+                    INSERT INTO Orders (BookId, BuyerId, Quantity, TotalPrice, Status)
+                    VALUES (@BookId, @BuyerId, @Quantity, @TotalPrice, @Status)";
+                conn.Execute(insertSql, order);
+
+                string updateStockSql = "UPDATE Books SET Stock = Stock - @Qty WHERE Id = @BookId";
+                conn.Execute(updateStockSql, new { Qty = order.Quantity, BookId = order.BookId });
+
+                message = "Order placed successfully!";
+                return true;
             }
         }
 
-        public List<Order> getOrdersByBuyer(string buyerId)
+    public List<Order> getOrdersByBuyer(string buyerId)
+    {
+        using (var conn = DBHelper.CreateConnection())
+        {
+            string sql = @"
+                SELECT 
+                    o.id AS OrderId,
+                    o.bookid AS BookId,
+                    o.buyerid AS BuyerId,
+                    o.quantity AS Quantity,
+                    o.totalprice AS TotalPrice,
+                    o.status AS Status,
+
+                    b.id AS Id,
+                    b.title AS Title,
+                    b.author AS Author,
+                    b.price AS Price,
+                    b.imagepath AS ImagePath
+                FROM orders o
+                INNER JOIN books b ON o.bookid = b.id
+                WHERE o.buyerid = @buyerId";
+
+            return conn.Query<Order, Book, Order>(
+                sql,
+                (order, book) =>
+                {
+                    order.Book = book;
+                    return order;
+                },
+                new { buyerId },
+                splitOn: "Id"
+            ).ToList();
+        }
+    }
+
+
+       public List<Order> getAllOrders()
         {
             using (var conn = DBHelper.CreateConnection())
             {
-                string sql = "SELECT * FROM orders WHERE buyerid = @buyerId";
-                return conn.Query<Order>(sql, new { buyerId }).ToList();
+                string sql = @"
+                    SELECT 
+                        o.id AS OrderId,
+                        o.bookid AS BookId,
+                        o.buyerid AS BuyerId,
+                        o.quantity AS Quantity,
+                        o.totalprice AS TotalPrice,
+                        o.status AS Status,
+
+                        b.id AS Id,
+                        b.title AS Title,
+                        b.author AS Author,
+                        b.price AS Price,
+                        b.imagepath AS ImagePath,
+                        b.stock AS Stock
+                    FROM orders o
+                    INNER JOIN books b ON o.bookid = b.id";
+
+                return conn.Query<Order, Book, Order>(
+                    sql,
+                    (order, book) =>
+                    {
+                        order.Book = book;
+                        return order;
+                    },
+                    splitOn: "Id"
+                ).ToList();
             }
         }
 
-        public List<Order> getAllOrders()
-        {
-            using (var conn = DBHelper.CreateConnection())
-            {
-                string sql = "SELECT * FROM orders";
-                return conn.Query<Order>(sql).ToList();
-            }
-        }
 
         public void updateStatus(int id, string status)
         {

@@ -33,12 +33,17 @@
                             <p class="text-muted mb-1">@book.Author</p>
 
                             <p class="fw-bold mb-2">PKR @book.Price</p>
-
+                            
+                            <div class="mb-2">
+                                <span id="stockCount_@book.Id">@book.Stock</span> in stock
+                            </div>
                 
                             <form asp-action="PlaceOrder" method="post" class="mt-auto">
                                 <input type="hidden" name="bookId" value="@book.Id" />
                                 <input type="number" name="quantity" value="1" min="1"
-                                       class="form-control mb-2" required />
+                                       class="form-control mb-2 quantity-input" 
+                                        data-stock="@book.Stock"
+                                       data-bookid="@book.Id"required />
                                 <button class="btn btn-primary w-100 rounded-pill fw-bold">Order</button>
                             </form>
 
@@ -49,3 +54,50 @@
         }
     </div>
 </section>
+    
+     @* using signalR for real time communicaiton *@
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.7/signalr.min.js"></script>
+    <script>
+        // SignalR connection for stock updates
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/stockHub")
+            .build();
+
+        connection.on("ReceiveStockUpdate", (bookId, newStock) => {
+            const stockSpan = document.getElementById("stockCount_" + bookId);
+            const input = document.querySelector(`.quantity-input[data-bookid='${bookId}']`);
+            if (stockSpan) {
+                stockSpan.textContent = newStock + " in stock";
+                if (newStock <= 0) {
+                    stockSpan.textContent = "Out of Stock!";
+                    stockSpan.style.color = "red";
+                    if(input) input.value = 0; 
+                } else {
+                    stockSpan.style.color = "green";
+                    if(input && parseInt(input.value) > newStock) input.value = newStock;
+                }
+            }
+        });
+
+        connection.start();
+
+        // Local input stock check
+        document.querySelectorAll('.quantity-input').forEach(input => {
+            input.addEventListener('input', function () {
+                const qty = parseInt(this.value);
+                const stock = parseInt(this.dataset.stock);
+                const stockSpan = document.getElementById("stockCount_" + this.dataset.bookid);
+
+                if (qty > stock) {
+                    stockSpan.textContent = "Out of Stock!";
+                    stockSpan.style.color = "red";
+                } else {
+                    stockSpan.textContent = qty + " out of " + stock + " in stock";
+                    stockSpan.style.color = "green";
+                }
+            });
+        });
+     </script>
+}

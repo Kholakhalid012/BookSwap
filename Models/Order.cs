@@ -1,16 +1,18 @@
-
-using Microsoft.CodeAnalysis;
 namespace BookSwap.Models
-{       
-public class Order
+{
+    public class Order
     {
-        public string? id { get; set; }
-        public int bookid { get; set; }
-        public string? buyerid { get; set; }
-        public int quantity { get; set; }
-        public double totalprice { get; set; }
-        public string? status { get; set; } // Pending / Completed
+        public int OrderId { get; set; }   // Primary Key
+
+        public int BookId { get; set; }    // Foreign Key
+        public Book? Book { get; set; }     // Navigation Property
+
+        public string? BuyerId { get; set; } // Identity User Id
+
+        public int Quantity { get; set; }
+
+        public double TotalPrice { get; set; }
+
+        public string? Status { get; set; } // Pending / Completed
     }
 }
-
-

@@ -1,52 +1,93 @@
 ﻿<style>
-    /* Hero Section */
-    .hero {
-        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                    url('/images/BackGroungimg.jpg') center/cover no-repeat;
-        height: 70vh;
-        display: flex;
+    /* GLOBAL BACKGROUND */
+
+    body {
+        background-image: url('/images/Home_Page.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;   
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        /* //  background: linear-gradient(135deg, #f2a0d3, #eaf5c4, #b3cdd1); */
+        font-family: "Poppins", sans-serif;
+    }
+    .navbar-dark {
+        background-color: #050202 !important;
+    }
+    /* HERO SECTION */
+    .hero {  /* this hero section styles the top welcome area */
+        height: 50vh;    
+        font-style: italic;
         align-items: center;
         justify-content: center;
         text-align: center;
-        color: white;
-        padding: 20px;
+        @* color: #f1bf1aed; *@
+@* // can change it runtime  *@
+        color: whitesmoke;
+        display: flex;
+        flex-direction: column; 
+        
+
+    }
+
+    .bookswap-brand {
+        font-size: 1.8rem;        /* bigger text */
+        letter-spacing: 2px;      /* spacing between letters */
+        color: #f0cc3b !important; /* custom color */
+        text-transform: uppercase;
+        transition: 0.3s;
+        font-weight: 800;
+        font-style: italic;
     }
 
     .hero h1 {
-        font-size: 3rem;
-        font-weight: 700;
+        font-size: 3.5rem;
+        font-weight: 720;
     }
 
-    .hero p {
-        font-size: 1.3rem;
-        margin-top: 10px;
-    }
-
-    .btn-main {
-        background-color: #4C6EF5;
-        padding: 12px 28px;
+    .btn-main {  /* used for main call-to-action buttons */
+        background-color: #3259f7;
+        padding: 12px 28px; 
         color: white;
-        border-radius: 8px;
-        font-size: 1.1rem;
-        margin-top: 20px;
-        transition: 0.3s;
+        border-radius: 10px; 
+        font-size: 1.2rem;
+        margin-top: 30px; 
+        transition: 0.3s; 
     }
 
     .btn-main:hover {
-        background-color: #3B5BDC;
+        background-color: #5750e4;
         text-decoration: none;
         color: white;
+        transform: translateY(-3px); 
     }
 
-    /* Feature Cards */
+    /* FEATURE CARDS  for cards */
     .feature-card {
         transition: 0.3s ease;
         border-radius: 12px;
+        background: white;
+        border: 1px solid #ddd;
     }
 
     .feature-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.15); 
+    }
+
+    .h3 {
+        font-weight: 550;
+        font-size: x-small;
+    }
+    .h2{
+        font-weight: 600;
+        font-display: fallback;
+        font-style: italic;
+        color: #fac833;
+        justify-content: center;
+        display: flex;
     }
 </style>
 
@@ -54,19 +95,19 @@
 <div class="hero">
     <div>
         <h1>Welcome to BookSwap</h1>
-        <p>Buy, Sell, and Exchange Books Easily with Trusted Students & Readers</p>
+        <h3>Buy, Sell, and Exchange Books Easily with Trusted Students & Readers</h3>
         
-        <a href="/Account/Login" class="btn btn-main">Get Started</a>
+        <a href="/Account/Login" class="btn btn-main fw-bold">Get Started</a> 
     </div>
 </div>
 
-<!-- FEATURES -->
+@* <!-- FEATURES -->
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Why Choose BookSwap?</h2>
+    <h2 class="h2">Why Choose BookSwap?</h2>
 
-    <div class="row g-4">
+    <div class="row g-4 justify-content-center">
 
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="card feature-card p-4 text-center shadow-sm">
                 <img src="/images/sell.png" width="70" class="mx-auto mb-3" />
                 <h5>Sell Your Books Easily</h5>
@@ -74,7 +115,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="card feature-card p-4 text-center shadow-sm">
                 <img src="/images/buy.png" width="70" class="mx-auto mb-3" />
                 <h5>Buy Affordable Books</h5>
@@ -84,9 +125,9 @@
 
 
     </div>
-</div>
+</div> *@
 
-<!-- CTA -->
+@* <!-- CTA -->
 <div class="container text-center my-5">
     <a class="btn btn-main" href="/Books/AllBooks">Browse Books</a>
-</div>
+</div> *@

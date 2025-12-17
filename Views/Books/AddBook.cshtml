@@ -1,4 +1,4 @@
-
+@* 
 <section class="container py-5">
     <div class="text-center mb-5">
         <h1 class="fw-bold">Add a New Book</h1>
@@ -39,33 +39,21 @@
                         <input type="number" name="price" class="form-control rounded-pill py-2" placeholder="Enter price" required>
                     </div>
 
-                    <div class="mb-3">
+                    @* <div class="mb-3">
                         <label class="form-label fw-bold">Book Cover Image (Optional)</label>
                         <input type="file" name="BookImage" class="form-control" accept="image/*" onchange="previewImage(event)">
                         <img id="imagePreview" src="/images/default-book.png" alt="Book Preview" class="img-fluid mt-3" style="max-height:200px;">
+                    </div> 
+                    <div class="mb-3">
+                        <label class="form-label">Book Image</label>
+                        <input type="file" name="BookImage" class="form-control" />
                     </div>
+
+
 
                     <button type="submit" class="btn btn-success w-100 rounded-pill py-2 fw-bold">Add Book</button>
                 </form>
             </div>
         </div>
     </div>
-</section>
-
-<script>
-    function previewImage(event) {
-        var input = event.target;
-        var reader = new FileReader();
-        reader.onload = function(){
-            var dataURL = reader.result;
-            var output = document.getElementById('imagePreview');
-            output.src = dataURL;
-        };
-        if(input.files[0]){
-            reader.readAsDataURL(input.files[0]);
-        } else {
-    
-            document.getElementById('imagePreview').src = '/images/default-book.svg';
-        }
-    }
-</script>
+</section> *@

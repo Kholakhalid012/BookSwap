@@ -11,7 +11,7 @@ namespace BookSwap.Models
         }
 
         // Add other DbSets for your tables here
-        // public DbSet<Book> Books { get; set; }
-        // public DbSet<Order> Orders { get; set; }
+         public DbSet<Book> Books { get; set; }
+         public DbSet<Order> Orders { get; set; }
     }
 }

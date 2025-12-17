@@ -5,21 +5,24 @@ using BookSwap.Models.Interfaces;
 using BookSwap.Models.Repositories;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using BookSwap.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace BookSwap.Controllers
 {
-    [Authorize(Roles = "Buyer")]
     public class BuyerController : Controller
     {
         private readonly IBookRepository _bookRepo;
+        private readonly IHubContext<StockHub> _hubContext;
         private readonly IOrderRepository _orderRepo;
         private readonly UserManager<ApplicationUser> _userManager;
         
-        public BuyerController(IBookRepository bookRepo, IOrderRepository orderRepo, UserManager<ApplicationUser> userManager)
+        public BuyerController(IBookRepository bookRepo, IOrderRepository orderRepo, UserManager<ApplicationUser> userManager, IHubContext<StockHub> hubContext)
         {
             _bookRepo = bookRepo;
             _orderRepo = orderRepo;
             _userManager = userManager;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -44,19 +47,25 @@ namespace BookSwap.Controllers
 
             var order = new Order
             {
-
-                bookid = bookId,
-                buyerid = user.Id, 
-                quantity = quantity,
-                totalprice = (double)book.Price * quantity  ,
-                status = "Pending"
+                BookId = bookId,
+                BuyerId = user.Id,
+                Quantity = quantity,
+                TotalPrice = (double)book.Price * quantity,
+                Status = "Pending"
             };
 
-            _orderRepo.placeOrder(order);
+            bool success = _orderRepo.placeOrder(order, out string message);
 
-            TempData["Success"] = "Order placed successfully!";
+            if (!success)
+            {
+                TempData["Error"] = message;
+                return RedirectToAction("Index"); 
+            }
+
+            TempData["Success"] = message;
             return RedirectToAction("MyOrders");
         }
+
 
         public async Task<IActionResult> MyOrders()
         {
