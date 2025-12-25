@@ -54,7 +54,3 @@ This project was built as a **portfolio and learning project** following best pr
 | Seller | Add and manage book listings |
 | Buyer | Browse and buy books |
 
----
-
-## 📂 Project Structure
-
