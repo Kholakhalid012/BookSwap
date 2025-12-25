@@ -17,6 +17,6 @@ namespace BookSwap.Models
         public string? SellerId { get; set; }
         public string? SellerName { get; set; }     
         public string? SellerContact { get; set; }  
-        public int Stock { get; set; } = 1; 
+        public int Stock { get; set; } 
     }
 }

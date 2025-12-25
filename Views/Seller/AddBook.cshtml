@@ -6,7 +6,7 @@
             <div class="card shadow-lg p-4">
                 <h2 class="text-center mb-4 fw-bold">Add New Book 📘</h2>
 
-                <form asp-action="AddBook" method="post" class="d-grid gap-3">
+                <form asp-action="AddBook" method="post" enctype="multipart/form-data" class="d-grid gap-3">
 
                     <input type="text" name="title" class="form-control" placeholder="Book Title" required />
 
@@ -16,7 +16,7 @@
 
                     <input type="number" step="0.01" name="price" class="form-control" placeholder="Price (Rupees)" required />
 
-                    <input type="number" name="stock" class="form-control" placeholder="Stock / Quantity Available" min="1" required />
+                    <input type="number" step="1" name="stock" class="form-control" placeholder="Stock / Quantity Available" required />
 
                     <input type="file" name="BookImage" class="form-control" />
 

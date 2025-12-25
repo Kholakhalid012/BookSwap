@@ -3,17 +3,22 @@ using Microsoft.AspNetCore.Http;
 using BookSwap.Models;
 using BookSwap.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using System;
 using System.Threading.Tasks;
 
-namespace BookSwap.Controllers
-{
+namespace BookSwap.Controllers;
+     
+    [Authorize(Policy = "SellerOnly")]
+ 
     public class SellerController : Controller
     {
         private readonly IBookRepository _bookRepo;
         private readonly IOrderRepository _orderRepo;
         private readonly UserManager<ApplicationUser> _userManager;
+        
+        
 
         public SellerController(IBookRepository bookRepo, IOrderRepository orderRepo, UserManager<ApplicationUser> userManager)
         {
@@ -22,6 +27,7 @@ namespace BookSwap.Controllers
             _userManager = userManager;
         }
 
+         [Authorize(Roles = "Seller")]
         public async Task<IActionResult> Index()
         {
             var seller = await _userManager.GetUserAsync(User);
@@ -46,14 +52,14 @@ namespace BookSwap.Controllers
         public IActionResult AddBook() => View();
 
         [HttpPost]
-        public async Task<IActionResult> AddBook(string title, string author, string category, decimal price, IFormFile BookImage)
+        public async Task<IActionResult> AddBook(string title, string author, string category, decimal price, int stock, IFormFile BookImage)
         {
             string imagePath = "/images/default-book.svg";
 
             if (BookImage != null && BookImage.Length > 0)
             {
                 var ext = Path.GetExtension(BookImage.FileName).ToLower();
-                var allowed = new[] { ".jpg", ".jpeg", ".png" , "svg", "webp"};
+                var allowed = new[] { ".jpg", ".jpeg", ".png" , ".svg", ".webp"};
 
                 if (!allowed.Contains(ext))
                 {
@@ -84,6 +90,7 @@ namespace BookSwap.Controllers
                 Author = author,
                 Category = category,
                 Price = price,
+                Stock= stock,
                 ImagePath = imagePath,
                 SellerId = seller.Id,
                 SellerName = seller.UserName,
@@ -113,49 +120,71 @@ namespace BookSwap.Controllers
             }
 
             [HttpPost]
-            public IActionResult EditBook(int id, string title, string author, string category, decimal price, IFormFile BookImage)
-            {
-                var book = _bookRepo.GetById(id);
-            if (book == null) return NotFound();
-
-            string imagePath = book.ImagePath ?? "/images/default-book.svg";
+          public async Task<IActionResult> EditBook(int id, string title, string author, string category, decimal price, int stock, IFormFile BookImage,string ExistingImagePath)
+         {
+            string imagePath = ExistingImagePath; 
 
             if (BookImage != null && BookImage.Length > 0)
             {
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+                var ext = Path.GetExtension(BookImage.FileName).ToLower();
+                var allowed = new[] { ".jpg", ".jpeg", ".png", ".svg", ".webp" , ".gif"};
+
+                if (!allowed.Contains(ext))
+                {
+                    TempData["Error"] = "Only JPG, JPEG, PNG, SVG, WEBP , GIFimages are allowed.";
+                    return RedirectToAction("EditBook", new { id });
+                }
+
+                var uploadsFolder = Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot", "uploads", "books"
+                );
+
                 if (!Directory.Exists(uploadsFolder))
                     Directory.CreateDirectory(uploadsFolder);
 
-                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(BookImage.FileName);
+                var fileName = Guid.NewGuid() + ext;
                 var filePath = Path.Combine(uploadsFolder, fileName);
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    BookImage.CopyTo(fileStream);
-                }
+                using var stream = new FileStream(filePath, FileMode.Create);
+                await BookImage.CopyToAsync(stream);
 
-                imagePath = "/uploads/" + fileName;
+                imagePath = "/uploads/books/" + fileName;
             }
 
-            book.Title = title;
-            book.Author = author;
-            book.Category = category;
-            book.Price = price;
-            book.ImagePath = imagePath;
+            var seller = await _userManager.GetUserAsync(User);
+
+            var book = new Book
+            {
+                Id = id,
+                Title = title,
+                Author = author,
+                Category = category,
+                Price = price,
+                Stock = stock,
+                ImagePath = imagePath,
+                SellerId = seller.Id
+            };
 
             _bookRepo.Update(book);
+
             TempData["Success"] = "Book updated successfully!";
             return RedirectToAction("MyBooks");
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteBook(int id)
         {
-            var book = _bookRepo.GetById(id);
-            if (book == null) return NotFound();
+            bool deleted = _bookRepo.Delete(id);
 
-            _bookRepo.Delete(id);
+            if (!deleted)
+            {
+                TempData["Error"] = "This book cannot be deleted because it has orders.";
+                return RedirectToAction("MyBooks");
+            }
+
             TempData["Success"] = "Book deleted successfully!";
             return RedirectToAction("MyBooks");
         }
@@ -169,4 +198,3 @@ namespace BookSwap.Controllers
             return View(orders);
         }
     }
-}

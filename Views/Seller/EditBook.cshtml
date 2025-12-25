@@ -1,7 +1,4 @@
 @model BookSwap.Models.Book
-@{
-    ViewBag.Title = "Edit Book - BookSwap";
-}
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -10,7 +7,7 @@
             <div class="card shadow-lg p-4">
                 <h2 class="text-center mb-4">Edit Book</h2>
 
-                <form asp-action="EditBook" method="post">
+                <form asp-action="EditBook" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="@Model.Id" />
 
                     <div class="mb-3">
@@ -33,10 +30,23 @@
                         <input type="number" step="0.01" name="price" value="@Model.Price" class="form-control" required />
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Image Path</label>
-                        <input type="file" name="bookimage" value="@Model.ImagePath" class="form-control" />
+                     <div class="mb-3">
+                        <label class="form-label">Stock</label>
+                        <input type="number" step="1" name="stock" value="@Model.Stock" class="form-control" required />
                     </div>
+
+                    <div class="mb-3 ">
+                        <img src="@Model.ImagePath"
+                            style="height:150px; object-fit:cover;"
+                            class="img-thumbnail"
+                            onerror="this.src='/images/default-book.svg'" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Change Image (optional)</label>
+                        <input type="file" name="BookImage" class="form-control" />
+                    </div>
+                    <input type="hidden" name="ExistingImagePath" value="@Model.ImagePath" />
 
                     <button type="submit" class="btn btn-primary w-100">Update Book</button>
                 </form>

@@ -23,7 +23,7 @@
 
                         <img src="@book.ImagePath"
                              class="card-img-top"
-                             style="height: 240px; object-fit: cover;"
+                             style="height: 240px; object-fit: contains"
                              onerror="this.src='/images/default-book.svg'" />
 
                         <div class="card-body d-flex flex-column">
@@ -35,7 +35,7 @@
                             <p class="fw-bold mb-2">PKR @book.Price</p>
                             
                             <div class="mb-2">
-                                <span id="stockCount_@book.Id">@book.Stock</span> in stock
+                                <span id="stockCount_@book.Id">@book.Stock</span> 
                             </div>
                 
                             <form asp-action="PlaceOrder" method="post" class="mt-auto">
@@ -55,12 +55,9 @@
     </div>
 </section>
     
-     @* using signalR for real time communicaiton *@
-
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.7/signalr.min.js"></script>
     <script>
-        // SignalR connection for stock updates
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("/stockHub")
             .build();
@@ -83,10 +80,9 @@
 
         connection.start();
 
-        // Local input stock check
         document.querySelectorAll('.quantity-input').forEach(input => {
             input.addEventListener('input', function () {
-                const qty = parseInt(this.value);
+                const qty = parseInt(this.value) || 0;
                 const stock = parseInt(this.dataset.stock);
                 const stockSpan = document.getElementById("stockCount_" + this.dataset.bookid);
 
@@ -99,5 +95,11 @@
                 }
             });
         });
+              
+        document.querySelectorAll('.quantity-input').forEach(input => {
+            input.dispatchEvent(new Event('input'));
+        });
+
      </script>
 }
+

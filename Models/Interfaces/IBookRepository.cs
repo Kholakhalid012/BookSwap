@@ -8,7 +8,7 @@ namespace BookSwap.Models.Interfaces
         Book GetById(int id);
         void Add(Book book);
         void Update(Book book);
-        void Delete(int id);
+        bool Delete(int id);
         List<Book> GetBooksBySeller(string sellerId);
         List<string> GetAllCategories();           
         void AddCategory(string categoryName);     

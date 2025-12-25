@@ -289,6 +289,38 @@
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
     },
     {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/0189f02c-755f-4cbb-b34f-41e5bb7e5423.webp",
+      "PackagePath": "staticwebassets/uploads/books/0189f02c-755f-4cbb-b34f-41e5bb7e5423.webp"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/1180e02f-f0f5-4561-9363-23efa843de39.jpg",
+      "PackagePath": "staticwebassets/uploads/books/1180e02f-f0f5-4561-9363-23efa843de39.jpg"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/2799dcca-41d0-41a0-9716-91c9806fc720.jpg",
+      "PackagePath": "staticwebassets/uploads/books/2799dcca-41d0-41a0-9716-91c9806fc720.jpg"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/2980ca0b-4d79-42dd-9cc8-f6660c0e14dc.webp",
+      "PackagePath": "staticwebassets/uploads/books/2980ca0b-4d79-42dd-9cc8-f6660c0e14dc.webp"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/73e32ab4-2126-4102-87cc-fcc9418c7565.jpeg",
+      "PackagePath": "staticwebassets/uploads/books/73e32ab4-2126-4102-87cc-fcc9418c7565.jpeg"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/b4314d49-311d-408b-b81c-022e8073c740.gif",
+      "PackagePath": "staticwebassets/uploads/books/b4314d49-311d-408b-b81c-022e8073c740.gif"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/b8924306-babe-4e4a-a19b-d595740655d7.webp",
+      "PackagePath": "staticwebassets/uploads/books/b8924306-babe-4e4a-a19b-d595740655d7.webp"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/f13e9f11-b544-4328-8fc2-07527917e701.webp",
+      "PackagePath": "staticwebassets/uploads/books/f13e9f11-b544-4328-8fc2-07527917e701.webp"
+    },
+    {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.BookSwap.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

@@ -22,7 +22,7 @@ namespace BookSwap.Models.Repositories
         {
             using (var conn = DBHelper.CreateConnection())
             {
-                string sql = "SELECT * FROM Books";
+                string sql = "SELECT * FROM Books"; // TODO: specify fields don't use '*', and also apply Limit and offset (pagination) (means if we are having more than 1000 books it will return all, we should use pagination)
                 return conn.Query<Book>(sql).ToList();
             }
         }
@@ -32,8 +32,8 @@ namespace BookSwap.Models.Repositories
             using (var conn = DBHelper.CreateConnection())
             {
                 string sql = @"INSERT INTO Books 
-                               (title, author, price, sellerid, category, imagepath) 
-                               VALUES (@Title, @Author, @Price, @SellerId, @Category, @ImagePath)";
+                               (title, author, price, sellerid, category, imagepath, stock) 
+                               VALUES (@Title, @Author, @Price, @SellerId, @Category, @ImagePath, @Stock)";
                 conn.Execute(sql, book);
             }
         }
@@ -44,19 +44,26 @@ namespace BookSwap.Models.Repositories
             {
                 string sql = @"UPDATE Books 
                                SET title=@Title, author=@Author, price=@Price, sellerid=@SellerId, 
-                                   category=@Category, imagepath=@ImagePath
+                                   category=@Category, imagepath=@ImagePath, stock=@Stock
                                WHERE id=@Id";
                 conn.Execute(sql, book);
             }
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-            using (var conn = DBHelper.CreateConnection())
-            {
-               string sql = "DELETE FROM Books WHERE Id = @id";
-                conn.Execute(sql, new { id });
-            }
+            using var conn = DBHelper.CreateConnection();
+
+           
+            var hasOrders = conn.ExecuteScalar<int>(
+                "SELECT COUNT(*) FROM Orders WHERE BookId = @id",
+                new { id });
+
+            if (hasOrders > 0)
+                return false; 
+
+            conn.Execute("DELETE FROM Books WHERE Id = @id", new { id });
+            return true;
         }
 
         public List<Book> GetBooksBySeller(string sellerId)

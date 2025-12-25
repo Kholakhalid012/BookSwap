@@ -21,11 +21,10 @@ namespace BookSwap.Controllers
             _roleManager = roleManager;
         }
 
-        // ---------------- LOGIN (GET) ----------------
         [HttpGet]
         public IActionResult Login() => View();
 
-        // ---------------- LOGIN (POST) ----------------
+      
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
         {
@@ -49,17 +48,54 @@ namespace BookSwap.Controllers
             if (roles.Contains("Buyer")) return RedirectToAction("Index", "Buyer");
             if (roles.Contains("Seller")) return RedirectToAction("Index", "Seller");
 
-            // Role not assigned yet
             TempData["UsernameForRole"] = username;
             return RedirectToAction("SelectRole");
         }
 
-        // ---------------- REGISTER (GET) ----------------
         [HttpGet]
         public IActionResult Register() => View();
 
-        // ---------------- REGISTER (POST) ----------------
-        [HttpPost]
+      
+        // [HttpPost]
+        // public async Task<IActionResult> Register(string username, string password, string confirmPassword)
+        // {
+        //     if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+        //     {
+        //         ViewBag.Error = "Username and password are required.";
+        //         return View();
+        //     }
+
+        //     if (password != confirmPassword)
+        //     {
+        //         ViewBag.Error = "Passwords do not match.";
+        //         return View();
+        //     }
+
+        //     var existingUser = await _userManager.FindByNameAsync(username);
+        //     if (existingUser != null)
+        //     {
+        //         ViewBag.Error = "Username already exists.";
+        //         return View();
+        //     }
+
+        //     var newUser = new ApplicationUser { UserName = username };
+        //     var result = await _userManager.CreateAsync(newUser, password);
+
+        //     if (!result.Succeeded)
+        //     {
+        //         ViewBag.Error = string.Join(", ", result.Errors.Select(e => e.Description));
+        //         return View();
+        //     }
+
+        //     // Sign in
+        //     await _signInManager.SignInAsync(newUser, isPersistent: false);
+
+        //     // Redirect to role selection
+        //     TempData["UsernameForRole"] = username;
+        //     return RedirectToAction("SelectRole");
+        // }
+
+       [HttpPost]
         public async Task<IActionResult> Register(string username, string password, string confirmPassword)
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
@@ -90,15 +126,13 @@ namespace BookSwap.Controllers
                 return View();
             }
 
-            // Sign in
-            await _signInManager.SignInAsync(newUser, isPersistent: false);
-
-            // Redirect to role selection
+         
             TempData["UsernameForRole"] = username;
+
+
             return RedirectToAction("SelectRole");
         }
 
-        // ---------------- ROLE SELECTION ----------------
         [HttpGet]
         public IActionResult SelectRole()
         {
@@ -128,13 +162,11 @@ namespace BookSwap.Controllers
             var user = await _userManager.FindByNameAsync(username);
             if (user == null) return RedirectToAction("Login");
 
-            // ------------------- Ensure role exists -------------------
             if (!await _roleManager.RoleExistsAsync(role))
                 await _roleManager.CreateAsync(new IdentityRole(role));
 
             await _userManager.AddToRoleAsync(user, role);
 
-            // Redirect based on role
             if (role == "Buyer") return RedirectToAction("Index", "Buyer");
             if (role == "Seller") return RedirectToAction("Index", "Seller");
 
@@ -150,14 +182,11 @@ namespace BookSwap.Controllers
             return View();
         }
 
-        // ---------------- LOGOUT ----------------
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
+        // // ---------------- LOGOUT ----------------
+        // public async Task<IActionResult> Logout()
+        // {
+        //     await _signInManager.SignOutAsync();
+        //     return RedirectToAction("Index", "Home");
+        // }
     }
 }
-
-//                    User1
-//                    User123*#

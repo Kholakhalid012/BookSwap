@@ -40,22 +40,26 @@ namespace BookSwap.Models.Repositories
         using (var conn = DBHelper.CreateConnection())
         {
             string sql = @"
-                SELECT 
-                    o.id AS OrderId,
-                    o.bookid AS BookId,
-                    o.buyerid AS BuyerId,
-                    o.quantity AS Quantity,
-                    o.totalprice AS TotalPrice,
-                    o.status AS Status,
+             SELECT 
+                o.id AS OrderId,
+                o.bookid AS BookId,
+                o.buyerid AS BuyerId,
+                o.quantity AS Quantity,
+                o.totalprice AS TotalPrice,
+                o.status AS Status,
 
-                    b.id AS Id,
-                    b.title AS Title,
-                    b.author AS Author,
-                    b.price AS Price,
-                    b.imagepath AS ImagePath
-                FROM orders o
-                INNER JOIN books b ON o.bookid = b.id
-                WHERE o.buyerid = @buyerId";
+                b.id AS  BookId2,
+                b.title AS Title,
+                b.author AS Author,
+                b.price AS Price,
+                b.imagepath AS ImagePath,
+                b.stock AS Stock,
+                b.sellerid AS SellerId,
+                b.sellername AS SellerName,
+                b.sellercontact AS SellerContact
+            FROM orders o
+            INNER JOIN books b ON o.bookid = b.id
+            WHERE o.buyerid = @buyerId";
 
             return conn.Query<Order, Book, Order>(
                 sql,
@@ -65,7 +69,7 @@ namespace BookSwap.Models.Repositories
                     return order;
                 },
                 new { buyerId },
-                splitOn: "Id"
+                splitOn: "BookId2"
             ).ToList();
         }
     }
@@ -76,7 +80,7 @@ namespace BookSwap.Models.Repositories
             using (var conn = DBHelper.CreateConnection())
             {
                 string sql = @"
-                    SELECT 
+                   SELECT 
                         o.id AS OrderId,
                         o.bookid AS BookId,
                         o.buyerid AS BuyerId,
@@ -84,12 +88,15 @@ namespace BookSwap.Models.Repositories
                         o.totalprice AS TotalPrice,
                         o.status AS Status,
 
-                        b.id AS Id,
+                        b.id AS BookId2,
                         b.title AS Title,
                         b.author AS Author,
                         b.price AS Price,
                         b.imagepath AS ImagePath,
-                        b.stock AS Stock
+                        b.stock AS Stock,
+                        b.sellerid AS SellerId,
+                        b.sellername AS SellerName,
+                        b.sellercontact AS SellerContact
                     FROM orders o
                     INNER JOIN books b ON o.bookid = b.id";
 
@@ -100,7 +107,7 @@ namespace BookSwap.Models.Repositories
                         order.Book = book;
                         return order;
                     },
-                    splitOn: "Id"
+                    splitOn: "BookId2"
                 ).ToList();
             }
         }

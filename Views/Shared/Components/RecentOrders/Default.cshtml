@@ -1,0 +1,13 @@
+@model List<BookSwap.Models.Order>
+
+<div class="recent-orders-widget">
+    <h5>Recent Orders</h5>
+    <ul class="list-group">
+        @foreach(var order in Model)
+        {
+            <li class="list-group-item">
+                @order.Book?.Title - Qty: @order.Quantity - @order.Status
+            </li>
+        }
+    </ul>
+</div>

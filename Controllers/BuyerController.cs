@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace BookSwap.Controllers
 {
+    [Authorize(Policy = "BuyerOnly")]
+
     public class BuyerController : Controller
     {
         private readonly IBookRepository _bookRepo;

@@ -1,7 +1,21 @@
 @model List<BookSwap.Models.Book>
 
 <div class="container mt-5">
+
     <h2 class="text-center mb-4">My Books</h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger text-center">
+            @TempData["Error"]
+        </div>
+    }
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success text-center">
+            @TempData["Success"]
+        </div>
+    }
 
     <div class="mb-3 text-center">
         <strong>Total Books: <span id="bookCount">@Model.Count</span></strong>
@@ -32,7 +46,7 @@
                         <td>@book.Author</td>
                         <td>@book.Category</td>
                         <td class="fw-bold">Rs. @book.Price</td>
-                         <td class="fw-bold">@book.Stock</td>
+                        <td class="fw-bold">@book.Stock</td>
 
                         <td class="text-center">
                             <a href="/Seller/EditBook/@book.Id" class="btn btn-primary btn-sm me-2">
