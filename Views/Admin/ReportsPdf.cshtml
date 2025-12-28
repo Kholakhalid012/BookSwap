@@ -1,0 +1,166 @@
+@model BookSwap.ViewModels.AdminReportViewModel
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px;
+        color: #000;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2, h3 {
+        text-align: center;
+        color: #131212;
+        margin-bottom: 10px;
+        font-size: large;
+        font-weight: 150;
+    }
+
+    h3 {
+        margin-top: 20px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 5px;
+    }
+
+    .stats {
+        width: 100%;
+        margin-bottom: 20px;
+        display: table;
+    }
+
+    .stat {
+        display: table-cell;
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: center;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        page-break-inside: auto;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 6px;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    th {
+        background-color: #161616;
+        color: white;
+    }
+
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+
+    .badge-completed {
+        background-color: #28a745;
+        color: #fff;
+        padding: 2px 5px;
+        border-radius: 3px;
+    }
+
+    .badge-pending {
+        background-color: #f1c40f;
+        color: #000;
+        padding: 2px 5px;
+        border-radius: 3px;
+    }
+
+    .top-section {
+        width: 100%;
+        display: table;
+        margin-bottom: 20px;
+    }
+
+    .top-card {
+        display: table-cell;
+        width: 50%;
+        border: 1px solid #ccc;
+        padding: 8px;
+        vertical-align: top;
+    }
+
+    /* Ensure PDF page breaks after sections */
+    .page-break { page-break-after: always; }
+</style>
+
+<h2>Admin Reports</h2>
+
+<div class="stats">
+    <div class="stat"><strong>Total Users</strong><br />@Model.TotalUsers</div>
+    <div class="stat"><strong>Total Books</strong><br />@Model.TotalBooks</div>
+    <div class="stat"><strong>Total Orders</strong><br />@Model.TotalOrders</div>
+    <div class="stat"><strong>Buyers</strong><br />@Model.BuyerCount</div>
+    <div class="stat"><strong>Sellers</strong><br />@Model.SellerCount</div>
+</div>
+
+<div class="top-section">
+    <div class="top-card">
+        <h3> Top Buyer</h3>
+        <p><strong>ID:</strong> @Model.TopBuyerId</p>
+        <p><strong>Username:</strong> @Model.TopBuyerName</p>
+    </div>
+    <div class="top-card">
+        <h3> Top Seller</h3>
+        <p><strong>ID:</strong> @Model.TopSellerId</p>
+        <p><strong>Username:</strong> @Model.TopSellerName</p>
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<h3>📝 Recent Orders</h3>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Buyer</th>
+            <th>Seller</th>
+            <th>Book</th>
+            <th>Qty</th>
+            <th>Total (Rs.)</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var o in Model.RecentOrders)
+        {
+            var buyerName = "Unknown";
+            if (Model.UserDict != null && o?.BuyerId != null && Model.UserDict.TryGetValue(o.BuyerId, out var bName))
+            {
+                buyerName = bName ?? "Unknown";
+            }
+
+            var sellerName = "Unknown";
+            if (Model.BookDict != null && Model.BookDict.TryGetValue(o.BookId, out var book) 
+                && book?.SellerId != null 
+                && Model.UserDict != null 
+                && Model.UserDict.TryGetValue(book.SellerId.ToString(), out var sName))
+            {
+                sellerName = sName ?? "Unknown";
+            }
+
+            <tr>
+                <td>@o.OrderId</td>
+                <td>@buyerName</td>
+                <td>@sellerName</td>
+                <td>@o.BookId</td>
+                <td>@o.Quantity</td>
+                <td>@o.TotalPrice</td>
+                <td>
+                    <span class="@(o.Status == "Completed" ? "badge-completed" : "badge-pending")">
+                        @o.Status
+                    </span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,31 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64
+    container_name: BookSwapDocker
+    environment:
+      SA_PASSWORD: "StrongPass@123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1444:1433"
+    networks:
+      - bookswap-net
+
+  app:
+    build: .
+    # depends_on:
+    #   - db
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=host.docker.internal,1443;Database=BookSwap;User Id=sa;Password=StrongPass@123;Encrypt=False;TrustServerCertificate=True;"
+    ports:
+      - "5001:8080"
+    networks:
+      - bookswap-net
+
+networks:
+  bookswap-net:
+    driver: bridge
+
+#  docker compose down                  
+# docker compose up -d --build      for the first time running the containers
+

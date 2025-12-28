@@ -1,34 +1,94 @@
-<div class="container mt-5">
-    <div class="text-center mb-4">
-        <h1 class="fw-bold">Welcome, Seller! 👋</h1>
-        <p class="text-muted fs-5">Manage your books, orders, and listings easily.</p>
-    </div>
+@model List<BookSwap.Models.Book>
 
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+<div class="full-page-bg">
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <h1 class="fw-bold">Welcome, Seller! 👋</h1>
+            <p class="text-muted fs-5">Manage your books, orders, and listings easily.</p>
+        </div>
 
-            <div class="card shadow-lg p-4 mb-4">
-                <div class="mb-3 text-center">
-                    <strong>Total Books: <span id="bookCount">@Model.Count</span></strong>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+
+                <div class="card shadow-lg p-4 mb-4">
+                    <div class="mb-3   dashboard-label text-center">
+                        <strong>Total Books: <span id="bookCount">@Model.Count</span></strong>
+                    </div>
                 </div>
+
+ 
+
+                <div class="d-grid gap-3 mb-4">
+                    <a href="/Seller/AddBook" class="btn btn-success dashboard-label btn-lg shadow-sm">
+                        ➕ Add New Book
+                    </a>
+
+                    <a href="/Seller/MyBooks" class="btn btn-primary dashboard-label  btn-lg shadow-sm">
+                        📚 My Books
+                    </a>
+
+                    <a href="/Seller/Orders" class="btn btn-warning  dashboard-label  btn-lg shadow-sm ">
+                        🛒 Orders
+                    </a>
+                </div>
+
+                @await Component.InvokeAsync("RecentOrders", new { count = 5 })
+
             </div>
-
-            <div class="d-grid gap-3 mb-4">
-                <a href="/Seller/AddBook" class="btn btn-success btn-lg shadow-sm">
-                    ➕ Add New Book
-                </a>
-
-                <a href="/Seller/MyBooks" class="btn btn-primary btn-lg shadow-sm">
-                    📚 My Books
-                </a>
-
-                <a href="/Seller/Orders" class="btn btn-warning btn-lg shadow-sm text-dark">
-                    🛒 Orders
-                </a>
-            </div>
-
-            @await Component.InvokeAsync("RecentOrders", new { count = 5 })
-
         </div>
     </div>
 </div>
+
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.7/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/sellerHub")
+            .build();
+
+        // Listen for book count updates
+        connection.on("ReceiveBookCountUpdate", (totalBooks) => {
+            document.getElementById("bookCount").textContent = totalBooks;
+        });
+
+        connection.start().catch(err => console.error(err));
+    </script>
+}
+
+
+<style>
+    /* Full-page gradient background like admin dashboard */
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        min-height: 100%;
+    }
+
+    body {
+        background: linear-gradient(135deg, #fde7a5, #e6b9ae);
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .dashboard-label {
+       font-size: 1.5rem; /* adjust as needed */
+     }
+
+    .full-page-bg {
+        width: 100%;
+        min-height: 100vh;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .card {
+        border-radius: 15px;
+    }
+
+    .btn-lg {
+        border-radius: 10px;
+    }
+</style>

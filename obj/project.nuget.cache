@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "EWTowR/xVqM=",
+  "dgSpecHash": "06I45ClyrhA=",
   "success": true,
   "projectFilePath": "/Users/hafsa/Desktop/BookSwap/BookSwap.csproj",
   "expectedPackageFiles": [
@@ -132,6 +132,7 @@
     "/Users/hafsa/.nuget/packages/nuget.projectmodel/6.3.1/nuget.projectmodel.6.3.1.nupkg.sha512",
     "/Users/hafsa/.nuget/packages/nuget.protocol/6.3.1/nuget.protocol.6.3.1.nupkg.sha512",
     "/Users/hafsa/.nuget/packages/nuget.versioning/6.3.1/nuget.versioning.6.3.1.nupkg.sha512",
+    "/Users/hafsa/.nuget/packages/rotativa.aspnetcore/1.4.0/rotativa.aspnetcore.1.4.0.nupkg.sha512",
     "/Users/hafsa/.nuget/packages/system.clientmodel/1.5.1/system.clientmodel.1.5.1.nupkg.sha512",
     "/Users/hafsa/.nuget/packages/system.codedom/5.0.0/system.codedom.5.0.0.nupkg.sha512",
     "/Users/hafsa/.nuget/packages/system.collections.immutable/7.0.0/system.collections.immutable.7.0.0.nupkg.sha512",

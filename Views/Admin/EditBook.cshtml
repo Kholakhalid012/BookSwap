@@ -1,0 +1,87 @@
+@model BookSwap.Models.Book
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-lg p-4" style="border-radius:15px; border: 2px solid black; background-color: white;">
+                <h2 class="text-center mb-4 text-black">Edit Book</h2>
+
+                <form asp-action="EditBook" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="@Model.Id" />
+
+                    <div class="mb-3">
+                        <label class="form-label text-black">Title</label>
+                        <input type="text" name="title" value="@Model.Title" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-black">Author</label>
+                        <input type="text" name="author" value="@Model.Author" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-black">Category</label>
+                        <input type="text" name="category" value="@Model.Category" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-black">Price</label>
+                        <input type="number" step="0.01" name="price" value="@Model.Price" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-black">Stock</label>
+                        <input type="number" step="1" name="stock" value="@Model.Stock" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3 text-center">
+                        <img src="@Model.ImagePath"
+                            style="height:150px; object-fit:cover; border-radius:8px; border:1px solid black;"
+                            class="img-thumbnail"
+                            onerror="this.src='/images/default-book.svg'" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-black">Change Image (optional)</label>
+                        <input type="file" name="BookImage" class="form-control" />
+                    </div>
+                    <input type="hidden" name="ExistingImagePath" value="@Model.ImagePath" />
+
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">Update Book</button>
+                </form>
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success mt-3 text-center">
+                        @TempData["Success"]
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(to right, #fde7a5, #e6b9ae);
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .btn-primary:hover {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+</style>

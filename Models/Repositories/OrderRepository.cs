@@ -9,9 +9,16 @@ namespace BookSwap.Models.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
+
+        private readonly DBHelper _dbHelper;
+        public OrderRepository(DBHelper dbHelper)
+        {
+            _dbHelper = dbHelper;
+        }   
+
         public bool placeOrder(Order order, out string message)
         {
-            using (var conn = DBHelper.CreateConnection())
+            using (var conn = _dbHelper.CreateConnection())
             {
                 string getStockSql = "SELECT Stock FROM Books WHERE Id = @BookId";
                 int stock = conn.QueryFirstOrDefault<int>(getStockSql, new { BookId = order.BookId });
@@ -37,7 +44,7 @@ namespace BookSwap.Models.Repositories
 
     public List<Order> getOrdersByBuyer(string buyerId)
     {
-        using (var conn = DBHelper.CreateConnection())
+        using (var conn = _dbHelper.CreateConnection())
         {
             string sql = @"
              SELECT 
@@ -77,7 +84,7 @@ namespace BookSwap.Models.Repositories
 
        public List<Order> getAllOrders()
         {
-            using (var conn = DBHelper.CreateConnection())
+            using (var conn = _dbHelper.CreateConnection())
             {
                 string sql = @"
                    SELECT 
@@ -115,7 +122,7 @@ namespace BookSwap.Models.Repositories
 
         public void updateStatus(int id, string status)
         {
-            using (var conn = DBHelper.CreateConnection())
+            using (var conn = _dbHelper.CreateConnection())
             {
                 string sql = "UPDATE orders SET status = @status WHERE id = @id";
                 conn.Execute(sql, new { id, status });

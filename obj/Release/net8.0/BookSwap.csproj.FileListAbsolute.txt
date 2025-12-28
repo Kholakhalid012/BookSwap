@@ -276,3 +276,5 @@
 /Users/hafsa/Desktop/BookSwap/obj/Release/net8.0/BookSwap.pdb
 /Users/hafsa/Desktop/BookSwap/obj/Release/net8.0/BookSwap.genruntimeconfig.cache
 /Users/hafsa/Desktop/BookSwap/obj/Release/net8.0/ref/BookSwap.dll
+/Users/hafsa/Desktop/BookSwap/bin/Release/net8.0/appsettings.Production.json
+/Users/hafsa/Desktop/BookSwap/bin/Release/net8.0/Rotativa.AspNetCore.dll

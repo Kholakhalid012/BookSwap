@@ -186,6 +186,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/hafsa/Desktop/BookSwap/Views/Account/About_Us.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9BYm91dF9Vcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hafsa/Desktop/BookSwap/Views/Account/Contact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Db250YWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/hafsa/Desktop/BookSwap/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -210,8 +218,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQ2F0ZWdvcmllcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/hafsa/Desktop/BookSwap/Views/Admin/EditBook.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vRWRpdEJvb2suY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/hafsa/Desktop/BookSwap/Views/Admin/Reports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUmVwb3J0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hafsa/Desktop/BookSwap/Views/Admin/ReportsPdf.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUmVwb3J0c1BkZi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/hafsa/Desktop/BookSwap/Views/Admin/Users.cshtml]
@@ -232,6 +248,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/hafsa/Desktop/BookSwap/Views/Books/MyBooks.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQm9va3MvTXlCb29rcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hafsa/Desktop/BookSwap/Views/Buyer/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQnV5ZXIvQWNjZXNzRGVuaWVkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/hafsa/Desktop/BookSwap/Views/Buyer/BookDetails.cshtml]
@@ -280,6 +300,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/hafsa/Desktop/BookSwap/Views/Seller/Orders.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2VsbGVyL09yZGVycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hafsa/Desktop/BookSwap/Views/Shared/Components/RecentOrders/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvUmVjZW50T3JkZXJzL0RlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/hafsa/Desktop/BookSwap/Views/Shared/Error.cshtml]

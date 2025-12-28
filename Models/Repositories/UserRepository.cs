@@ -10,10 +10,15 @@ namespace BookSwap.Models.Repositories
 {
     public class UserRepository : IUserRepository
     {
+            private readonly DBHelper _dbHelper;
+            public UserRepository(DBHelper dbHelper)
+            {
+                _dbHelper = dbHelper;
+            }
 
         public User getByUsername(string username)
         {
-            using (var conn = DBHelper.CreateConnection())
+            using (var conn = _dbHelper.CreateConnection())
             {
                 string sql = "SELECT * FROM users WHERE username = @username";
                 return conn.QueryFirstOrDefault<User>(sql, new { username });
@@ -23,7 +28,7 @@ namespace BookSwap.Models.Repositories
       
         public void register(User user)
         {
-            using (var conn = DBHelper.CreateConnection())
+            using (var conn =_dbHelper.CreateConnection())
             {
                 // Hash the password before storing
                 user.password = BCrypt.Net.BCrypt.HashPassword(user.password);
@@ -37,7 +42,7 @@ namespace BookSwap.Models.Repositories
         // Login user by verifying hashed password
         public User login(string username, string password)
         {
-            using (var conn = DBHelper.CreateConnection())
+            using (var conn =_dbHelper.CreateConnection())
             {
                 string sql = "SELECT * FROM users WHERE username = @username";
                 var user = conn.QueryFirstOrDefault<User>(sql, new { username });
@@ -53,7 +58,7 @@ namespace BookSwap.Models.Repositories
 
         public List<User> getAll()
         {
-            using (var conn = DBHelper.CreateConnection())
+            using (var conn =_dbHelper.CreateConnection())
             {
                 string sql = "SELECT * FROM users";
                 return conn.Query<User>(sql).ToList();

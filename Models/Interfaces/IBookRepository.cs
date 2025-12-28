@@ -11,6 +11,7 @@ namespace BookSwap.Models.Interfaces
         bool Delete(int id);
         List<Book> GetBooksBySeller(string sellerId);
         List<string> GetAllCategories();           
-        void AddCategory(string categoryName);     
+        void AddCategory(string categoryName);   
+        bool SoftDelete(int id);  
     }
 }

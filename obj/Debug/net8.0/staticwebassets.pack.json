@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets/BookSwap.bundle.scp.css"
     },
     {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/Rotativa/wkhtmltopdf",
+      "PackagePath": "staticwebassets/Rotativa"
+    },
+    {
       "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },
@@ -297,6 +301,10 @@
       "PackagePath": "staticwebassets/uploads/books/1180e02f-f0f5-4561-9363-23efa843de39.jpg"
     },
     {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/23eeb1b6-fced-4095-afa9-153bf81daaca.jpg",
+      "PackagePath": "staticwebassets/uploads/books/23eeb1b6-fced-4095-afa9-153bf81daaca.jpg"
+    },
+    {
       "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/2799dcca-41d0-41a0-9716-91c9806fc720.jpg",
       "PackagePath": "staticwebassets/uploads/books/2799dcca-41d0-41a0-9716-91c9806fc720.jpg"
     },
@@ -305,8 +313,24 @@
       "PackagePath": "staticwebassets/uploads/books/2980ca0b-4d79-42dd-9cc8-f6660c0e14dc.webp"
     },
     {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/4f529459-80a0-4127-abb0-9a3a57eea66c.jpg",
+      "PackagePath": "staticwebassets/uploads/books/4f529459-80a0-4127-abb0-9a3a57eea66c.jpg"
+    },
+    {
       "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/73e32ab4-2126-4102-87cc-fcc9418c7565.jpeg",
       "PackagePath": "staticwebassets/uploads/books/73e32ab4-2126-4102-87cc-fcc9418c7565.jpeg"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/779ebdf7-392c-4d02-a2a0-326411764401.jpg",
+      "PackagePath": "staticwebassets/uploads/books/779ebdf7-392c-4d02-a2a0-326411764401.jpg"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/9fb88ece-68b0-4a98-8acb-7ff5eeacd9b0.gif",
+      "PackagePath": "staticwebassets/uploads/books/9fb88ece-68b0-4a98-8acb-7ff5eeacd9b0.gif"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/aa4876ef-5fc9-43ff-96fd-95d5de46e99a.jpg",
+      "PackagePath": "staticwebassets/uploads/books/aa4876ef-5fc9-43ff-96fd-95d5de46e99a.jpg"
     },
     {
       "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/b4314d49-311d-408b-b81c-022e8073c740.gif",
@@ -317,8 +341,24 @@
       "PackagePath": "staticwebassets/uploads/books/b8924306-babe-4e4a-a19b-d595740655d7.webp"
     },
     {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/d9ccf8f7-6333-406c-882b-50f99a4245bd.jpg",
+      "PackagePath": "staticwebassets/uploads/books/d9ccf8f7-6333-406c-882b-50f99a4245bd.jpg"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/e056ebd8-e94d-4365-92f0-164233d2f811.jpg",
+      "PackagePath": "staticwebassets/uploads/books/e056ebd8-e94d-4365-92f0-164233d2f811.jpg"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/e75e1bc4-c000-4fad-b194-835a525294c9.jpg",
+      "PackagePath": "staticwebassets/uploads/books/e75e1bc4-c000-4fad-b194-835a525294c9.jpg"
+    },
+    {
       "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/f13e9f11-b544-4328-8fc2-07527917e701.webp",
       "PackagePath": "staticwebassets/uploads/books/f13e9f11-b544-4328-8fc2-07527917e701.webp"
+    },
+    {
+      "Id": "/Users/hafsa/Desktop/BookSwap/wwwroot/uploads/books/fe718b55-49b6-4e46-b021-4af629fef915.webp",
+      "PackagePath": "staticwebassets/uploads/books/fe718b55-49b6-4e46-b021-4af629fef915.webp"
     },
     {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.BookSwap.Microsoft.AspNetCore.StaticWebAssets.props",

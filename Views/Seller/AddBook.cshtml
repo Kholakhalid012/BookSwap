@@ -1,37 +1,70 @@
+@model BookSwap.Models.Book
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+<div class="full-page-bg d-flex align-items-center py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
 
-            <div class="card shadow-lg p-4">
-                <h2 class="text-center mb-4 fw-bold">Add New Book 📘</h2>
+                <div class="card shadow-lg p-4">
+                    <h2 class="text-center mb-4 fw-bold">Add New Book 📘</h2>
 
-                <form asp-action="AddBook" method="post" enctype="multipart/form-data" class="d-grid gap-3">
+                    <!-- Display Error -->
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger text-center fw-bold">
+                            @TempData["Error"]
+                        </div>
+                    }
 
-                    <input type="text" name="title" class="form-control" placeholder="Book Title" required />
+                    <!-- Display Success -->
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success text-center fw-bold">
+                            @TempData["Success"]
+                        </div>
+                    }
 
-                    <input type="text" name="author" class="form-control" placeholder="Author Name" required />
+                    <form asp-action="AddBook" method="post" enctype="multipart/form-data" class="d-grid gap-3">
 
-                    <input type="text" name="category" class="form-control" placeholder="Category (e.g. Fiction, Science, Life, Nature)" required />
+                        <input type="text" name="title" class="form-control" placeholder="Book Title" required />
+                        <input type="text" name="author" class="form-control" placeholder="Author Name" required />
+                        <input type="text" name="category" class="form-control" placeholder="Category (e.g. Fiction, Science, Life, Nature)" required />
+                        <input type="number" step="0.01" name="price" class="form-control" placeholder="Price (Rupees)" required />
+                        <input type="number" step="1" name="stock" class="form-control" placeholder="Stock / Quantity Available" required />
+                        <input type="file" name="BookImage" class="form-control" />
+                        <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm">Add Book</button>
 
-                    <input type="number" step="0.01" name="price" class="form-control" placeholder="Price (Rupees)" required />
-
-                    <input type="number" step="1" name="stock" class="form-control" placeholder="Stock / Quantity Available" required />
-
-                    <input type="file" name="BookImage" class="form-control" />
-
-                    <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm">Add Book</button>
-                </form>
-
-                @if (TempData["Success"] != null)
-                {
-                    <p class="text-success text-center mt-3 fw-bold">
-                        @TempData["Success"]
-                    </p>
-                }
+                    </form>
+                </div>
 
             </div>
-
         </div>
     </div>
 </div>
+
+<style>
+    /* Full-page gradient background applied to wrapper */
+    .full-page-bg {
+        min-height: 100%;
+        width: 100%;
+        background: linear-gradient(135deg, #fde7a5, #e6b9ae);
+    }
+
+    .card {
+        border-radius: 15px;
+        background-color: #ffffff;
+    }
+
+    .form-control {
+        border-radius: 8px;
+    }
+
+    .btn-success {
+        border-radius: 25px;
+    }
+
+    .alert {
+        border-radius: 12px;
+        font-size: 1rem;
+    }
+</style>

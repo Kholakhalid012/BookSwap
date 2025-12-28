@@ -4,9 +4,12 @@ using BookSwap.Models;
 using BookSwap.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using BookSwap.Hubs;
 using System.IO;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace BookSwap.Controllers;
      
@@ -17,18 +20,18 @@ namespace BookSwap.Controllers;
         private readonly IBookRepository _bookRepo;
         private readonly IOrderRepository _orderRepo;
         private readonly UserManager<ApplicationUser> _userManager;
-        
-        
+        private readonly IHubContext<SellerHub> _sellerHub;
 
-        public SellerController(IBookRepository bookRepo, IOrderRepository orderRepo, UserManager<ApplicationUser> userManager)
+        public SellerController(IBookRepository bookRepo, IOrderRepository orderRepo, IHubContext<SellerHub> sellerHub, UserManager<ApplicationUser> userManager)
         {
             _bookRepo = bookRepo;
             _orderRepo = orderRepo;
             _userManager = userManager;
+            _sellerHub = sellerHub;
         }
 
-         [Authorize(Roles = "Seller")]
-        public async Task<IActionResult> Index()
+        [Authorize(Roles = "Seller")]
+        public async Task<IActionResult> Index(bool refresh = false)
         {
             var seller = await _userManager.GetUserAsync(User);
             if (seller == null) return RedirectToAction("Login", "Account");
@@ -59,11 +62,11 @@ namespace BookSwap.Controllers;
             if (BookImage != null && BookImage.Length > 0)
             {
                 var ext = Path.GetExtension(BookImage.FileName).ToLower();
-                var allowed = new[] { ".jpg", ".jpeg", ".png" , ".svg", ".webp"};
+                var allowed = new[] { ".jpg", ".jpeg", ".png" , ".svg", ".webp",".gif"};
 
                 if (!allowed.Contains(ext))
                 {
-                    TempData["Error"] = "Only JPG, JPEG, PNG, SVG, WEBP images are allowed.";
+                    TempData["Error"] = "Only JPG, JPEG, PNG, SVG, WEBP, GIF images are allowed.";
                     return RedirectToAction("AddBook");
                 }
 
@@ -92,15 +95,22 @@ namespace BookSwap.Controllers;
                 Price = price,
                 Stock= stock,
                 ImagePath = imagePath,
-                SellerId = seller.Id,
-                SellerName = seller.UserName,
-                SellerContact = seller.PhoneNumber
+                SellerId = seller?.Id ?? string.Empty,
+                SellerName = seller?.UserName?? string.Empty,
+                SellerContact = seller?.PhoneNumber
             };
-
                 _bookRepo.Add(book);
+              var totalBooks = _bookRepo.GetBooksBySeller(seller?.Id ?? string.Empty).Count; // get updated count
+              var hubContext = HttpContext.RequestServices.GetService<IHubContext<SellerHub>>();
+              if (seller != null)
+                  await _sellerHub.Clients.User(seller.Id).SendAsync("ReceiveBookCountUpdate", totalBooks);
+              //await hubContext.Clients.All.SendAsync("ReceiveBookCountUpdate", totalBooks);
+
+              
                 TempData["Success"] = "Book added successfully!";
                 return RedirectToAction("MyBooks");
             }
+            
 
             public async Task<IActionResult> MyBooks()
             {
@@ -131,7 +141,7 @@ namespace BookSwap.Controllers;
 
                 if (!allowed.Contains(ext))
                 {
-                    TempData["Error"] = "Only JPG, JPEG, PNG, SVG, WEBP , GIFimages are allowed.";
+                    TempData["Error"] = "Only JPG, JPEG, PNG, SVG, WEBP , GIF images are allowed.";
                     return RedirectToAction("EditBook", new { id });
                 }
 
@@ -163,7 +173,7 @@ namespace BookSwap.Controllers;
                 Price = price,
                 Stock = stock,
                 ImagePath = imagePath,
-                SellerId = seller.Id
+                SellerId = seller?.Id
             };
 
             _bookRepo.Update(book);
@@ -175,7 +185,7 @@ namespace BookSwap.Controllers;
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteBook(int id)
+        public async Task<IActionResult> DeleteBookAsync(int id)
         {
             bool deleted = _bookRepo.Delete(id);
 
@@ -184,6 +194,12 @@ namespace BookSwap.Controllers;
                 TempData["Error"] = "This book cannot be deleted because it has orders.";
                 return RedirectToAction("MyBooks");
             }
+            var seller = await _userManager.GetUserAsync(User);
+              // Notify SignalR hub about the updated book count
+            var totalBooks = _bookRepo.GetBooksBySeller(seller.Id).Count;
+            var hubContext = HttpContext.RequestServices.GetService<IHubContext<SellerHub>>();
+            if (hubContext != null)
+                await hubContext.Clients.All.SendAsync("ReceiveBookCountUpdate", totalBooks);
 
             TempData["Success"] = "Book deleted successfully!";
             return RedirectToAction("MyBooks");

@@ -2,8 +2,6 @@
 
 <div class="container mt-5">
 
-    <h2 class="text-center mb-4">My Books</h2>
-
     @if (TempData["Error"] != null)
     {
         <div class="alert alert-danger text-center">
@@ -17,8 +15,14 @@
         </div>
     }
 
-    <div class="mb-3 text-center">
-        <strong>Total Books: <span id="bookCount">@Model.Count</span></strong>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">My Books</h2>
+
+        <a asp-controller="Seller"
+        asp-action="Index"
+        class="btn btn-outline-dark btn-lg fw-bold shadow-sm">
+           ← Back to Seller Dashboard
+        </a>
     </div>
 
     <div class="card shadow-lg p-4">

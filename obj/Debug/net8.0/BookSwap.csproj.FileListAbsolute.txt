@@ -307,3 +307,4 @@
 /Users/hafsa/Desktop/BookSwap/obj/Debug/net8.0/BookSwap.genruntimeconfig.cache
 /Users/hafsa/Desktop/BookSwap/obj/Debug/net8.0/ref/BookSwap.dll
 /Users/hafsa/Desktop/BookSwap/bin/Debug/net8.0/BCrypt.Net-Next.dll
+/Users/hafsa/Desktop/BookSwap/bin/Debug/net8.0/Rotativa.AspNetCore.dll

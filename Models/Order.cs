@@ -14,5 +14,7 @@ namespace BookSwap.Models
         public double TotalPrice { get; set; }
 
         public string? Status { get; set; } // Pending / Completed
+
+         public bool BookRemoved { get; set; } = false;
     }
 }

@@ -9,27 +9,38 @@ namespace BookSwap.Models.Repositories
 {
     public class BookRepository : IBookRepository
     {
+        private readonly DBHelper _dbHelper;
+        public BookRepository(DBHelper dbHelper)
+        {
+            _dbHelper = dbHelper;
+        }
         public Book GetById(int id)
         {
-            using (var conn = DBHelper.CreateConnection())
+            using (var conn = _dbHelper.CreateConnection())
             {
                 string sql = "SELECT * FROM Books WHERE id = @id";
                 return conn.QueryFirstOrDefault<Book>(sql, new { id });
             }
         }
 
-        public IEnumerable<Book> GetAll()
+       public IEnumerable<Book> GetAll()
         {
-            using (var conn = DBHelper.CreateConnection())
+            using (var conn = _dbHelper.CreateConnection())
             {
-                string sql = "SELECT * FROM Books"; // TODO: specify fields don't use '*', and also apply Limit and offset (pagination) (means if we are having more than 1000 books it will return all, we should use pagination)
+                string sql = @"
+                    SELECT Id, Title, Author, Category, Price, Stock, ImagePath, SellerId, IsDeleted
+                    FROM Books
+                    WHERE IsDeleted = 0
+                    ORDER BY Id DESC
+                ";
+
                 return conn.Query<Book>(sql).ToList();
             }
         }
 
         public void Add(Book book)
         {
-            using (var conn = DBHelper.CreateConnection())
+            using (var conn = _dbHelper.CreateConnection())
             {
                 string sql = @"INSERT INTO Books 
                                (title, author, price, sellerid, category, imagepath, stock) 
@@ -40,7 +51,7 @@ namespace BookSwap.Models.Repositories
 
         public void Update(Book book)
         {
-            using (var conn = DBHelper.CreateConnection())
+            using (var conn = _dbHelper.CreateConnection())
             {
                 string sql = @"UPDATE Books 
                                SET title=@Title, author=@Author, price=@Price, sellerid=@SellerId, 
@@ -52,7 +63,7 @@ namespace BookSwap.Models.Repositories
 
         public bool Delete(int id)
         {
-            using var conn = DBHelper.CreateConnection();
+            using var conn = _dbHelper.CreateConnection();
 
            
             var hasOrders = conn.ExecuteScalar<int>(
@@ -66,18 +77,31 @@ namespace BookSwap.Models.Repositories
             return true;
         }
 
-        public List<Book> GetBooksBySeller(string sellerId)
+        public bool SoftDelete(int id)
         {
-            using (var conn = DBHelper.CreateConnection())
-            {
-                string sql = "SELECT * FROM Books WHERE sellerid = @sellerId";
-                return conn.Query<Book>(sql, new { sellerId }).ToList();
-            }
+            using var conn = _dbHelper.CreateConnection();
+
+            // Soft delete: mark as deleted instead of removing
+            var affected = conn.Execute(
+                "UPDATE Books SET IsDeleted = 1 WHERE Id = @id",
+                new { id });
+
+            return affected > 0;
         }
+
+       public List<Book> GetBooksBySeller(string sellerId)
+        {
+            using var conn = _dbHelper.CreateConnection();
+            return conn.Query<Book>(
+                "SELECT * FROM Books WHERE SellerId = @sellerId AND IsDeleted = 0",
+                new { sellerId }
+            ).ToList();
+        }
+
 
         public List<string> GetAllCategories()
         {
-            using (var conn = DBHelper.CreateConnection())
+            using (var conn = _dbHelper.CreateConnection())
             {
                 string sql = "SELECT DISTINCT category FROM Books WHERE category IS NOT NULL";
                 return conn.Query<string>(sql).ToList();
@@ -86,7 +110,7 @@ namespace BookSwap.Models.Repositories
 
         public void AddCategory(string categoryName)
         {
-            using (var conn = DBHelper.CreateConnection())
+            using (var conn = _dbHelper.CreateConnection())
             {
                 string sql = "INSERT INTO Categories (name) VALUES (@categoryName)";
                 conn.Execute(sql, new { categoryName });

@@ -1,25 +1,70 @@
-@model BookSwap.Models.User[]
-@{
-    ViewData["Title"] = "Manage Users";
-}
+@using Microsoft.AspNetCore.Identity
+@model List<BookSwap.Models.ApplicationUser>
+<style>
+    body {
+        background: linear-gradient(to right, #fcf1cf, #fdccb7);
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-<h3>All Users</h3>
-<table class="table table-bordered table-striped mt-3">
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Role</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var u in Model)
-        {
-            <tr>
-                <td>@u.id</td>
-                <td>@u.username</td>
-                <td>@u.role</td>
-            </tr>
-        }
-    </tbody>
-</table>
+      h2 {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        color: #6939c2;
+        font-weight: bold;
+    }
+
+    .table {
+        background-color: #ffffffcc;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .table thead {
+        background: linear-gradient(135deg, #f6d365, #fda085);
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .table tbody tr:hover {
+        background-color: #fff2e6;
+        transform: scale(1.01);
+        transition: 0.2s;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2>All Users</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var u in Model)
+                {
+                    <tr>
+                        <td>@u.Id</td>
+                        <td>@u.UserName</td>
+                        <td>
+                            @{
+                                var roleManager = Context.RequestServices
+                                    .GetService(typeof(UserManager<BookSwap.Models.ApplicationUser>)) 
+                                    as UserManager<BookSwap.Models.ApplicationUser>;
+
+                                var userRoles = roleManager != null ? await roleManager.GetRolesAsync(u) : new List<string>();
+                                <text>@string.Join(", ", userRoles)</text>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>            
+        </table>
+    </div>
+</div>

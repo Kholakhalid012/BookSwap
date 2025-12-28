@@ -164,14 +164,16 @@ namespace BookSwap.Controllers
 
             if (!await _roleManager.RoleExistsAsync(role))
                 await _roleManager.CreateAsync(new IdentityRole(role));
-
             await _userManager.AddToRoleAsync(user, role);
+
+            await _signInManager.SignInAsync(user, isPersistent: false);
 
             if (role == "Buyer") return RedirectToAction("Index", "Buyer");
             if (role == "Seller") return RedirectToAction("Index", "Seller");
 
             return RedirectToAction("Login");
         }
+
         public IActionResult About_Us()
         {
             return View();

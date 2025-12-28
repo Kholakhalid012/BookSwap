@@ -13,6 +13,8 @@ namespace BookSwap.Models
         [ForeignKey("SellerId")]
         public ApplicationUser? Seller { get; set; }
 
+         public bool IsDeleted { get; set; } = false; 
+
         public string? ImagePath { get; set; }
         public string? SellerId { get; set; }
         public string? SellerName { get; set; }     

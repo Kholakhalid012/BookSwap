@@ -1,190 +1,217 @@
-
-@using BookSwap.Services
 @{
-    ViewData["Title"] = "Admin Reports";
-
-    // Pull fake data from the FakeDatabase service
-    var books = FakeDatabase.Books;
-    var orders = FakeDatabase.Orders;
-    var users = FakeDatabase.Users  ;
-
-    // Stats
-    int totalOrders = orders.Count;
-    int completedOrders = orders.Count(o => o.Status == "Completed");
-    int pendingOrders = orders.Count(o => o.Status == "Pending");
-    decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice);
-    int totalBooks = books.Count;
-    int totalUsers = users.Count;
-    int buyerCount = users.Count(u => u.role == "Buyer");
-    int sellerCount = users.Count(u => u.role == "Seller");
-    int adminCount = users.Count(u => u.role  == "Admin");
-
-   @* var booksDict = _bookRepo.getAll().ToDictionary(b => b.Id, b => b.Title);
-
-var bestSeller = orders
-    .GroupBy(o => booksDict[o.bookid])
-    .OrderByDescending(g => g.Count())
-    .FirstOrDefault()?.Key ?? "No sales yet"; *@
-
-
-
-   var topBuyerId = orders
-    .GroupBy(o => o.BuyerId)
-    .OrderByDescending(g => g.Count())
-    .FirstOrDefault()?.Key;
-
-string topBuyer = topBuyerId != null ? topBuyerId.ToString() : "No buyers yet";
-
-
-<div class="container">
-    <h2 class="mb-4 fw-bold">📊 Admin Reports</h2>
-
-    <!-- =======================
-         SALES SUMMARY
-    ======================== -->
-    <div class="row g-4 mb-4">
-        <div class="col-md-3">
-            <div class="card shadow-sm text-center p-3">
-                <h5>Total Orders</h5>
-                <h3 class="text-primary fw-bold">@totalOrders</h3>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow-sm text-center p-3">
-                <h5>Completed</h5>
-                <h3 class="text-success fw-bold">@completedOrders</h3>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow-sm text-center p-3">
-                <h5>Pending</h5>
-                <h3 class="text-warning fw-bold">@pendingOrders</h3>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow-sm text-center p-3">
-                <h5>Total Revenue</h5>
-                <h3 class="text-dark fw-bold">Rs. @totalRevenue</h3>
-            </div>
-        </div>
-    </div>
-
-    <!-- =======================
-         FAKE CHART
-    ======================== -->
-    <h4 class="mt-3 mb-2">📈 Monthly Revenue (Fake Chart)</h4>
-    <div class="p-3 bg-light rounded shadow-sm mb-4">
-        <div class="progress mb-2">
-            <div class="progress-bar" style="width: 30%">Jan</div>
-        </div>
-        <div class="progress mb-2">
-            <div class="progress-bar bg-success" style="width: 50%">Feb</div>
-        </div>
-        <div class="progress mb-2">
-            <div class="progress-bar bg-warning" style="width: 70%">Mar</div>
-        </div>
-        <div class="progress">
-            <div class="progress-bar bg-danger" style="width: 90%">Apr</div>
-        </div>
-    </div>
-
-    <!-- =======================
-         BOOKS SUMMARY
-    ======================== -->
-    <h4 class="mt-4">📚 Books Summary</h4>
-    <div class="row g-4 mb-4">
-        <div class="col-md-4">
-            <div class="card p-3 shadow-sm text-center">
-                <h6>Total Books</h6>
-                <h3 class="fw-bold">@totalBooks</h3>
-            </div>
-        </div>
-@* 
-        <div class="col-md-4">
-            <div class="card p-3 shadow-sm text-center">
-                <h6>Best Seller</h6>
-                <h5>@bestSeller</h5>
-            </div>
-        </div> *@
-
-        <div class="col-md-4">
-            <div class="card p-3 shadow-sm text-center">
-                <h6>Top Buyer</h6>
-                <h5>@topBuyer</h5>
-            </div>
-        </div>
-    </div>
-
-    <h4 class="mt-4"> User Overview</h4>
-    <div class="row g-4 mb-4">
-        <div class="col-md-3">
-            <div class="card p-3 shadow-sm text-center">
-                <h6>Total Users</h6>
-                <h3 class="fw-bold">@totalUsers</h3>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card p-3 shadow-sm text-center">
-                <h6>Buyers</h6>
-                <h3 class="text-primary fw-bold">@buyerCount</h3>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card p-3 shadow-sm text-center">
-                <h6>Sellers</h6>
-                <h3 class="text-success fw-bold">@sellerCount</h3>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card p-3 shadow-sm text-center">
-                <h6>Admins</h6>
-                <h3 class="text-danger fw-bold">@adminCount</h3>
-            </div>
-        </div>
-    </div>
-
-    <!-- =======================
-         RECENT ORDERS TABLE
-    ======================== -->
-    <h4 class="mt-4 mb-3">📝 Recent Orders</h4>
-    <table class="table table-bordered table-striped shadow-sm">
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Buyer</th>
-                <th>Book</th>
-                <th>Qty</th>
-                <th>Total (Rs.)</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var o in orders.TakeLast(5))
-            {
-                <tr>
-                    <td>@o.OrderId</td>
-                    <td>@o.BuyerId</td>
-                    <td>@o.BookId</td>
-                    <td>@o.Quantity</td>
-                    <td>@o.TotalPrice</td>
-                    <td>
-                        <span class="badge @(o.Status == "Completed" ? "bg-success" : "bg-warning")">
-                            @o.Status
-                        </span>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <!-- Fake download button -->
-    <button class="btn btn-primary mt-3">Download Report (PDF)</button>
-
-</div>
+    var recentOrders = ViewBag.RecentOrders as List<BookSwap.Models.Order>;
 }
+
+<style>
+    body {
+        background: linear-gradient(135deg, #fde7a5, #e6b9ae);
+       
+        min-height: 100vh;
+    }
+
+    .dashboard-container {
+        background: #e98d37;
+        border-radius: 20px;
+        padding: 30px;
+    }
+
+    .stat-card {
+        border-radius: 16px;
+        padding: 20px;
+        color: rgb(253, 251, 251);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        transition: transform 0.2s ease;
+        font-weight: 700;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px); 
+       
+    }
+
+    .gradient-green { background: linear-gradient(135deg,   #31d0db,  #3c76da); }
+    .gradient-blue { background: linear-gradient(135deg, #28a859 ,  #0a6b3c); }
+    .gradient-orange { background: linear-gradient(135deg, #e64b2c, #cc2e19); }
+    .gradient-purple { background: linear-gradient(135deg, #9c3af3, #4001be); }
+
+
+    .stat-card h6 {
+        font-size: 15px;
+        opacity: 0.9;
+        font-weight: 700;
+    }
+
+    .stat-card h3 {
+        font-weight: 700;
+        margin-top: 11px;
+       
+    }
+
+    .section-title {
+        font-weight: 700;
+        color: #010202;
+        font-size: xx-large-large;
+    }
+
+    .badge-completed {
+        background: #28a745;
+    }
+
+    .badge-pending {
+        background: #fbb615;
+        color: #000;
+    }
+
+    .table thead {
+        background: #0c0c0c;#fbb615
+        color: rgb(252, 235, 235);
+        
+    }
+
+    .card-info {
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 7px 17px rgba(0, 0, 0, 0.80);
+    }
+</style>
+
+<div class="container py-5">
+    <div class="dashboard-container">
+
+        <h2 class="text-center mb-4 section-title">📊 Admin Reports Dashboard</h2>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class=" stat-card gradient-blue">
+                    <h6>Total Orders</h6>
+                    <h3>@ViewBag.TotalOrders</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class=" stat-card gradient-green">
+                    <h6>Completed Orders</h6>
+                    <h3>@ViewBag.CompletedOrders</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="fw-bold stat-card gradient-orange">
+                    <h6>Pending Orders</h6>
+                    <h3>@ViewBag.PendingOrders</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card gradient-purple">
+                    <h6>Total Revenue</h6>
+                    <h3>Rs. @ViewBag.TotalRevenue</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- USERS & BOOKS -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="stat-card gradient-blue">
+                    <h6>Total Users</h6>
+                    <h3>@ViewBag.TotalUsers</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card gradient-green">
+                    <h6>Total Books</h6>
+                    <h3>@ViewBag.TotalBooks</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROLES -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="stat-card gradient-blue">
+                    <h6>Buyers</h6>
+                    <h3>@ViewBag.BuyerCount</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card gradient-green">
+                    <h6>Sellers</h6>
+                    <h3>@ViewBag.SellerCount</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOP BUYER & SELLER -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="card-info">
+                    <h5 class="section-title">🏆 Top Buyer</h5>
+                    <p class="mb-1"><strong>Username:</strong> @ViewBag.TopBuyerName</p>
+                    <p class="text-black small">ID: @ViewBag.TopBuyerId</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-info">
+                    <h5 class="section-title">⭐ Top Seller</h5>
+                    <p class="mb-1"><strong>Username:</strong> @ViewBag.TopSellerName</p>
+                    <p class="text-black small">ID: @ViewBag.TopSellerId</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RECENT ORDERS -->
+        <h4 class="section-title mb-3">📝 Recent Orders</h4>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Buyer</th>
+                        <th>Book</th>
+                        <th>Qty</th>
+                        <th>Total (Rs.)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (recentOrders != null && recentOrders.Any())
+                    {
+                        foreach (var o in recentOrders)
+                        {
+                            <tr>
+                                <td>@o.OrderId</td>
+                                <td>@o.BuyerId</td>
+                                <td>@o.BookId</td>
+                                <td>@o.Quantity</td>
+                                <td>@o.TotalPrice</td>
+                                <td>
+                                    <span class="badge @(o.Status == "Completed" ? "badge-completed" : "badge-pending")">
+                                        @o.Status
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">
+                                No recent orders found
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+        
+
+       <div class="fw-bold text-center  mt-4">
+            <a class="btn btn-dark px-4 py-2 rounded-pill" href="@Url.Action("DownloadReportPdf", "Admin")">
+                📄 Download Report (PDF)
+            </a>
+        </div>
+
+    </div>
+</div>
