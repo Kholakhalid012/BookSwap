@@ -42,6 +42,11 @@ namespace BookSwap.Controllers
             }
 
             var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                ViewBag.Error = "Invalid username or password.";
+                return View();
+            }
             var roles = await _userManager.GetRolesAsync(user);
 
             if (roles.Contains("Admin")) return RedirectToAction("AdminDashboard", "Admin");

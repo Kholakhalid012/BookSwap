@@ -138,8 +138,10 @@ namespace BookSwap.Controllers
             }
 
             // 3️⃣ Notify seller
-            var seller = await _userManager.FindByIdAsync(book.SellerId);
-            if (seller != null)
+            var seller = !string.IsNullOrEmpty(book.SellerId) 
+                ? await _userManager.FindByIdAsync(book.SellerId) 
+                : null;
+            if (seller != null && !string.IsNullOrEmpty(seller.Email))
             {
                 await _notificationService.NotifyAsync(
                     seller.Email,
@@ -166,7 +168,7 @@ namespace BookSwap.Controllers
 
             var userDict = users.ToDictionary(
                 u => u.Id,
-                u => u.UserName ?? "Unknown"
+                u => (string?)(u.UserName ?? "Unknown")
             );
 
             ViewBag.TotalOrders = orders.Count;
@@ -227,8 +229,8 @@ namespace BookSwap.Controllers
             var users = _userManager.Users.ToList();
             var books = _bookRepo.GetAll().ToList();
 
-            var userDict = users.ToDictionary(u => u.Id, u => u.UserName ?? "Unknown");
-            var bookDict = books.ToDictionary(b => b.Id, b => b);
+            var userDict = users.ToDictionary(u => u.Id, u => (string?)(u.UserName ?? "Unknown"));
+            var bookDict = books.ToDictionary(b => b.Id, b => (Book?)b);
 
             int buyerCount = 0, sellerCount = 0;
             foreach (var user in users)
@@ -240,7 +242,7 @@ namespace BookSwap.Controllers
 
             var model = new AdminReportViewModel
             {
-                RecentOrders = orders,
+                RecentOrders = orders!,
                 UserDict = userDict,
                 BookDict = bookDict,
                 TotalUsers = users.Count,

@@ -196,7 +196,7 @@ namespace BookSwap.Controllers;
             }
             var seller = await _userManager.GetUserAsync(User);
               // Notify SignalR hub about the updated book count
-            var totalBooks = _bookRepo.GetBooksBySeller(seller.Id).Count;
+            var totalBooks = _bookRepo.GetBooksBySeller(seller?.Id ?? string.Empty).Count;
             var hubContext = HttpContext.RequestServices.GetService<IHubContext<SellerHub>>();
             if (hubContext != null)
                 await hubContext.Clients.All.SendAsync("ReceiveBookCountUpdate", totalBooks);
