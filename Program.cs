@@ -85,11 +85,11 @@ var app = builder.Build();
     {
         await SeedAdminAsync(scope.ServiceProvider);
     }
-
+    
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
-app.UseStaticFiles();
 app.MapDefaultControllerRoute();
 app.MapHub<StockHub>("/stockHub");
 app.MapHub<SellerHub>("/sellerHub");
